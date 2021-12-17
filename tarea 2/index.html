@@ -15,10 +15,11 @@
                 <p class="pregunta">Pienso un número del 1 al 20</p>
                 <div class="divRespuesta">
                     <label for="response">¿Te animas a adivinar?</label>
-                    <input type="number" name="number" id="response" autofocus="on" onchange="checkNum(this.value)">
+                    <input class="showMe" type="number" name="number" id="response" autofocus="on" onchange="checkNum(this.value)">
                 </div>
             </div>
             <p id="guide"></p>
+            <a id="retry" href="" class="hideMe">Volver a intentar</a>
         </div>
     </div>
 </body>
