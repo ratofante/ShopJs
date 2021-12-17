@@ -1,0 +1,28 @@
+* {margin: 0px; padding: 0px; box-sizing: border-box;}
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+@media (min-width: 650px) {
+    .wrapper {
+        flex-flow: row;
+    }
+}
+button {
+    padding: .8rem;
+    background-color: beige;
+    margin: 2rem;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0px 0px 2px brown;
+}
+button:hover {
+    background-color: brown;   
+    color: beige;
+    box-shadow: 0px 0px 4px brown;
+}
+      

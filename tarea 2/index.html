@@ -1,0 +1,25 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/miArchivo.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="guessNumber">
+            <h1>Adivina el número</h1>
+            <div class="game">
+                <p class="pregunta">Pienso un número del 1 al 20</p>
+                <div class="divRespuesta">
+                    <label for="response">¿Te animas a adivinar?</label>
+                    <input type="number" name="number" id="response" autofocus="on" onchange="checkNum(this.value)">
+                </div>
+            </div>
+            <p id="guide"></p>
+        </div>
+    </div>
+</body>
+</html>
