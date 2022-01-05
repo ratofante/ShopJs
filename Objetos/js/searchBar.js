@@ -6,10 +6,10 @@
  */
 
 $(document).ready(function(){
-    $("#pokeSearch").keyup(function() {
-        var text = $(this).val();
-        
+
+    $("#pokeSearch").on("input", function() {
         $("#candidatos").empty();
+        var text = $(this).val();
 
         var pokemons = findPokemon.getHint(text, "#pokeHint");
         if(Array.isArray(pokemons)){
