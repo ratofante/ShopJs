@@ -1,22 +1,37 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkJCQQFRMTP9UTEz/VExM/1RMTP+QkJBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDAw/7SYoP/kvsr/5L7K/+S+yv/kvsr/nISE/zAwMP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDAw//Tg6P+AeHj/kIKC/6yWnP/IqrT/yKq0/9S0wP/YtLz/MDAw/wAAAAAAAAAAAAAAAAAAAAAAAAAAkJCQQGxmZv9cWlT/wLi2//j4+P9sZF7/UFBI/1BQSP9QUEj/XFpU/2xmZv+QkJBAAAAAAAAAAAAAAAAAAAAAADg4Nv9QUEj/MjJa/4h4dP/AuLb/UFBI/zg44P84OOD/ODjI/zg4yP9QUEj/ODg2/wAAAAAAAAAAAAAAAAAAAAA4ODb/ODjI/zg4+P84OPj/ODjI/zg4+P84OPj/ODj4/zg44P84OOD/ODjI/zg4Nv8AAAAAAAAAAAAAAAAAAAAAMjJa/zg4+P84OPj/ODj4/zg4+P84OPj/ODj4/zg4+P84OPj/ODjg/zg44P8yMlr/AAAAAAAAAAAAAAAAAAAAADIyWv84OPj/ODj4/1RU9/84OPj/ODj4/zg4+P84OPj/ODj4/zg44P84OOD/MjJa/wAAAAAAAAAAAAAAAAAAAACQkJBAODjI/4iI9//4+Pj/VFT3/zg4+P84OPj/ODj4/zg4+P84OOD/ODjI/5CQkEAAAAAAAAAAAAAAAAAAAAAAAAAAADAwMP84OMj/iIj3/zg4+P84OPj/ODj4/zg4+P84OPj/ODjg/zAwMP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDAw/zg4yP84OPj/ODj4/zg4+P84OPj/ODjI/zAwMP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACQkJBAMjJa/zIyWv8yMlr/MjJa/5CQkEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAD8PwAA8A8AAOAHAADgBwAAwAMAAMADAADAAwAAwAMAAOAHAADgBwAA8A8AAPw/AAD//wAA//8AAA==" rel="icon" type="image/x-icon" />
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="const.js"></script>
-    <script src="findPokemon.js"></script>
+    <script src="js/const.js"></script>
+    <script src="js/pokedex.js"></script>
+    <script src="js/findPokemon.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     
-<div class="container py-3">
-    <div class="mb-3 p-2 shadow rounded bg-dark">
-        <label for="pokeSearch" class="form-label text-white">Find a Pokemon! </label>
-        <input type="text" class="form-control" name="pokeSearch" id="pokeSearch" aria-describedby="pokeHint" placeholder="">
-        <small id="pokeHint" class="form-text text-muted">Write down a pokemon name</small>
-    </div>
+<div class="container-fluid">
+    <div class="row p-2">
+        <div class="col-sm-12 col-md-6 mw-50 mb-3 mx-auto p-3 shadow rounded bg-dark">
+            <label for="pokeSearch" class="form-label text-white">Find a Pokemon! </label>
+            <input type="text" class="form-control" name="pokeSearch" id="pokeSearch" aria-describedby="pokeHint" placeholder="">
+            <small id="pokeHint" class="form-text text-muted">Write down a pokemon name</small>
+        </div>
+        <div class="col-sm-12 col-md-6 mx-auto p-1 shadow rounded">
+            <div class="card">
+                <img class="card-img-top" src="" alt="">
+                <div class="card-body">
+                    <h4 id="pokeTitle" class="card-title">Title</h4>
+                    <p id="pokeDescription" class="card-text">Text</p>
+                </div>
+            </div>
+        </div>
+    </div>  
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
