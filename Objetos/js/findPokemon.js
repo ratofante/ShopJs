@@ -66,12 +66,7 @@ const findPokemon = {
             button.appendChild(buttonText);
             newDiv.appendChild(button);
         }
-    }/*,
-    setAttributes: function (element, attributes) {
-        for(var key in attributes) {
-            element.setAttribute(key, attributes[key]);
-        }
-    }*/
+    }
 }
 
 
