@@ -1,3 +1,20 @@
+:root {
+    --cards-width: 475px;
+}
+
 .hidden {
     display: none;
+}
+.searchBar {
+    max-height: 300px;
+    max-width: var(--cards-width);
+}
+.pokeCard {
+    max-width: var(--cards-width);
+}
+.imgCardContainer {
+    max-width: var(--cards-width);
+}
+.imgCardContainer img {
+    width:100%;
 }
