@@ -1,3 +1,6 @@
+var allPokeData = [];
+const urlPokeApi = "https://pokeapi.co/api/v2/pokemon/";
+const urlPokeSpecies = "https://pokeapi.co/api/v2/pokemon-species/";
 const pokeIndex = {
     1 : "bulbasaur",
     2 : "ivysaur",

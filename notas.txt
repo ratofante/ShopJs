@@ -1,0 +1,19 @@
+/*
+*
+* Js Factories
+*
+*/
+
+Podría probar armar cada producto con una factory.
+(1) Definir los attributos que necesito:
+    - nombre
+    - flavor_text
+    - type
+    - moves
+    - evo chain
+    - img
+
+(2) La factory recibe (id) hace el llamado usando
+la const url+id y se genera el producto.
+
+(3) Cada producto es almacenado en una const

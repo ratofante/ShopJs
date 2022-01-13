@@ -1,0 +1,26 @@
+/*
+    HEADER y NAVBAR
+*/
+.searchBar {
+    width:100%;
+}
+
+#pokeSearch {
+    max-width: 200px;
+}
+
+@media (min-width:576px) {
+    .searchBar {
+        max-width:30vw;
+        min-width: 336px;
+
+    }
+    #pokeSearchLabel {
+        margin-left:1rem;
+    }
+    #pokeSearch {min-width:200px;}
+}
+.separator {
+    margin-top:0;
+    margin-bottom: 50px;
+}
