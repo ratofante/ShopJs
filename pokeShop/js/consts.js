@@ -1,4 +1,5 @@
 var allPokeData = [];
+const pokeMap = new Map();
 const urlPokeApi = "https://pokeapi.co/api/v2/pokemon/";
 const urlPokeSpecies = "https://pokeapi.co/api/v2/pokemon-species/";
 const pokeIndex = {

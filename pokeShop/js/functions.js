@@ -1,102 +1,144 @@
 /**
  * Index:
  * 
- * initList()
- * 
- * orderAlph()
- * 
  * getPokemons()
  * 
- * setAttributes()
+ * initList()
  * 
  * searchPokemon()
+ * 
+ * setAttributes()
+ * makeElement()
+ * capitalize()
+ * clearTargetChilds()
+ * clearTargetContent() 
+ * 
  * searchSpecies()
+ *
  */
 
+/**
+ * GETPOKEMONS
+ * 
+ * Obtiene datos mínimos para la creación de las pokeCards
+ * Actualmente lo tengo disponible para pokeMap y allPokeData
+ * 
+ * Const: 
+ * Usa allPokeData
+ * Usa pokeMap
+ */
+ function getPokemons(url, num) {
+    for (var i = 1; i < num+1; i++){
+        fetch(url+i)
+        .then((resp) => resp.json())
+        .then(function(resp) {
+            let pokemon = {
+                'id' : resp.id,
+                'name' : resp.name,
+                'frontDefault' : resp.sprites.front_default,
+                'bigImg' : resp.sprites.other["official-artwork"].front_default,
+                'price' : (Math.random() * (9.99 - 1.99) + 1.99).toFixed(2),
+            };
+            allPokeData[resp.id] = pokemon;
 
+            pokeMap.set(resp.id, {
+                'id':resp.id,
+                'name':resp.name,
+                'frontDefault':resp.sprites.front_default,
+                'bigImg' : resp.sprites.other["official-artwork"].front_default,
+            });
+        })
+        .catch(function(error) {
+            console.log(error);
+        })
+    }
+}
 /***
+ * INIT LIST
+ * 
  * Para crear una lista con todos los productos
  * 
  * 
  */
+function initList(array) {
+    for(var key in array) {
+        // Main Container li[div.pokeDataContainer][div.pokeImgContainer]
+        let listItem = makeElement("li");
+        setAttributes(listItem, {
+            "class" : "list-group-item",
+        });
+        let pokeDataContainer = makeElement("div");
+        setAttributes(pokeDataContainer, {
+            "class" : "pokeDataContainer",
+        });
+        $(listItem).append(pokeDataContainer);
+        let pokeImgContainer = makeElement("div");
+        setAttributes(pokeImgContainer, {
+            "class" : "pokeImgContainer",
+        });
+        listItem.append(pokeImgContainer);
 
-function initList() {
-    for (var key in pokeIndex) {
-        let listItem = document.createElement("li");
-        listItem.setAttribute("class","list-group-item");
-        $(listItem).html("#"+key+" - "+pokeIndex[key]);
+        //pokeDataContainer[div.pokeCardInfo[h4.pokeCardName][p]]]
+        let pokeCardInfo = makeElement("div");
+        setAttributes(pokeCardInfo, {
+            "class" : "pokeCardInfo",
+        });
+        $(pokeDataContainer).append(pokeCardInfo);
+        let pokeCardName = makeElement("h4");
+        setAttributes(pokeCardName, {
+            "class" : "pokeCardName",
+        });
+        $(pokeCardName).html(capitalize(array[key].name));
+        $(pokeCardInfo).append(pokeCardName);
+        let price = makeElement("p");
+        $(price).html("$"+array[key].price);
+        $(pokeCardInfo).append(price);
+
+        //pokeCardButtons []
+        let pokeCardButtons = makeElement("div");
+        setAttributes(pokeCardButtons, {
+            "class" : "pokeCardButtons",
+        });
+        $(pokeDataContainer).append(pokeCardButtons);
+        let addButton = makeElement("button");
+        setAttributes(addButton, {
+            "class" : "btn btn-secondary",
+            "type" : "button",
+            "value" : array[key].id,
+        });
+        $(addButton).html("Add");
+        $(pokeCardButtons).append(addButton);
+        let seeButton = makeElement("button");
+        setAttributes(seeButton, {
+            "class" : "btn btn-primary mx-2",
+            "type" : "button",
+            "value" : array[key].id,
+        });
+        $(seeButton).html("See");
+        $(pokeCardButtons).append(seeButton);
+
+        //pokeImgContainer[img]
+        let pokeImg = makeElement("img");
+        setAttributes(pokeImg, {
+            "src" : array[key].frontDefault,
+            "alt" : array[key].name,
+        });
+        $(pokeImgContainer).append(pokeImg);
+
+        // -Finish!
         $("#listOrigin").append(listItem);
-    }
-}
-
-/***
- * Ordenar lista productos de manera alfabéticamente
- * 
- * 
- * 
- */
-
-var pokeArray = [];
-var pokeAlph = [];
-function orderAlph() {
-    
-    for (var key in pokeIndex){
-        pokeArray.push(pokeIndex[key]+"/"+key);
-    }
-    pokeArray = pokeArray.sort();
-
-    for (var i in pokeArray){
-        pokeAlph.push(pokeArray[i].split("/"));
-    }
-
-    for (var i = 0, len = pokeArray.length; i < len; i++){
-        let listItem = document.createElement("li");
-        listItem.setAttribute("class", "list-group-item");
-        $(listItem).html("#"+pokeAlph[i][1]+" - "+pokeAlph[i][0]);
-        $("#listTarget").append(listItem);
     }
 }
 
 /**
  * 
- * Obtiene datos mínimos para la creación de las pokeCards
+ * searchPokemon(id)
  * 
- * 
+ *  
  */
-
-function getPokemons() {
-    for (var key in pokeIndex) {
-        let url = urlPokeApi+key;
-        //console.log(url);
-        let request = new XMLHttpRequest();
-        request.open('GET', url, true);
-        request.onload = function () {
-            if (request.status >= 200 && request.status < 400) {
-                var pokeData = JSON.parse(this.response);
-                let pokemon = {
-                    'name' : pokeData.name,
-                    'frontDefault' : pokeData.sprites.front_default,
-                    'bigImg' : pokeData.sprites.other["official-artwork"].front_default
-                };                
-                allPokeData[pokeData.id] = pokemon;
-            }
-            else {
-                console.log("error");
-            }
-        }
-        request.send();
-    }
-}
-
-function setAttributes(element, attributes) {
-    for(var key in attributes) {
-        element.setAttribute(key, attributes[key]);
-    }
-}
-
-function searchPokemon(id) {
+ function searchPokemon(id) {
     let url = urlPokeApi+id;
-    console.log(url);
+    //console.log(url);
     let request = new XMLHttpRequest();
     request.open('GET',url,true);
     request.onload = function() {
@@ -144,13 +186,29 @@ function searchPokemon(id) {
             $("#pokeTitle").html("#"+id+" - "+pokeData.name);
             $("#pokeImg").attr("src", pokeData.sprites.other["official-artwork"].front_default);
             searchSpecies(id);
+
+            $("#pokeCardTarget").removeClass("hideMe");
+            $("#pokeCardTarget").addClass("showMe");
+
+            clearTargetChilds("#candidatos");
+            clearTargetChilds("#pokeHint");
+            clearInputContent("#pokeSearch");
+
+            $("html, body").animate({ scrollTop: 50 }, "slow");
+                       
+
         } else {
             console.log("error");
         }
     }
     request.send();
-}
-
+ }
+/**
+ * 
+ * searchSpecies()
+ * 
+ * 
+ */
 function searchSpecies(id) {
     let url = urlPokeSpecies+id;
     let request = new XMLHttpRequest();
@@ -166,3 +224,34 @@ function searchSpecies(id) {
     }
     request.send();
 }
+/**
+ * 
+ * UTILITIES
+ * 
+ *  
+ */
+function setAttributes(element, attributes) {
+    for(var key in attributes) {
+        element.setAttribute(key, attributes[key]);
+    }
+}
+function makeElement(name) {
+    return document.createElement(name);
+}
+function append(parent, element) {
+    return parent.appendChild(element);
+}
+function capitalize(string) {
+    let capStr = string.slice(0,1);
+    let restStr = string.slice(1);
+    return capStr.toUpperCase()+restStr;
+}
+function clearTargetChilds(target) {
+    $(target).empty();
+}
+function clearInputContent(target) {
+    $(target).val('');
+}
+
+
+

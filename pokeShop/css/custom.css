@@ -1,26 +1,75 @@
 /*
+    UTILITY CLASSES
+*/
+.showMe {
+    display:block;
+}
+.hideMe {
+    display:none;
+}
+
+/*
     HEADER y NAVBAR
 */
+.navMenuContainer {
+    position:sticky;
+    top: 0;
+    z-index: 5;
+}
 .searchBar {
     width:100%;
 }
-
-#pokeSearch {
-    max-width: 200px;
+.nav-link {
+    padding: .5rem .5rem !important;
+}
+.nav-pills .nav-link {
+    border-radius:0 !important;
+}
+#shopCart {
+    position:absolute !important;
+    right:0px;
+    margin-right: 1rem;
 }
 
 @media (min-width:576px) {
-    .searchBar {
-        max-width:30vw;
-        min-width: 336px;
-
-    }
-    #pokeSearchLabel {
-        margin-left:1rem;
-    }
-    #pokeSearch {min-width:200px;}
+    
 }
+
 .separator {
-    margin-top:0;
-    margin-bottom: 50px;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+/*
+* Card Products
+*
+*/
+.list-group-item {
+    display: flex;
+    justify-content: space-around;
+    padding: .5rem;
+    margin: .5rem;
+    box-shadow: 1px 1px 5px #000000ab;
+}
+.pokeDataContainer {
+    display:flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+.pokeCardInfo{
+    margin-bottom: 1rem;
+}
+.pokeCardInfo > * {
+    display: inline;
+}
+.pokeCardInfo p {
+    margin-left:1rem;
+    font-weight: bold;
+}
+.pokeImgContainer {
+    width: 40%;
+}
+.pokeImgContainer img {
+    width: 100%;
 }

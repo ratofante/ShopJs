@@ -5,7 +5,6 @@
  * 
  * 
  */
-
 const findPokemon = {
     url : "https://pokeapi.co/api/v2/pokemon-species/",
     pokeArray: [],
@@ -48,7 +47,7 @@ const findPokemon = {
             }
 
             // Creamos la Div 'choice-id'
-            let newDiv = document.createElement("div");
+            let newDiv = makeElement("div");
             setAttributes(newDiv, {
                 "id":'choice-'+key,
                 "class":'bg-secondary my-1 d-flex align-content-center justify-content-between rounded'
@@ -68,7 +67,7 @@ const findPokemon = {
                 {
                     "class":"btn btn-primary",
                     "value":pokemons[key][1],
-                    "onclick":"searchPokemon(this.value)"
+                    "onclick":"searchPokemon(this.value)",
                 });
             let buttonText = document.createTextNode("search!");
             button.appendChild(buttonText);
