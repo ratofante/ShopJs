@@ -19,6 +19,9 @@
 .searchBar {
     width:100%;
 }
+.searchBarContainer {
+    max-width: 400px;
+}
 .nav-link {
     padding: .5rem .5rem !important;
 }
@@ -44,12 +47,33 @@
 * Card Products
 *
 */
+#pokeCardTarget {
+    width: 100%;
+    order: initial;
+    max-width: 450px;
+}
+@media (min-width:760px) {
+    #pokeCardTarget {
+        max-width: 350px;
+    }
+}
+#listOrigin {
+    display:flex;
+    flex-flow: wrap;
+    justify-content: space-evenly;
+    flex-direction: row-reverse;
+}
 .list-group-item {
     display: flex;
     justify-content: space-around;
     padding: .5rem;
     margin: .5rem;
     box-shadow: 1px 1px 5px #000000ab;
+    max-width: 350px;
+    min-width:300px;
+    max-height: 140px;
+    flex: 1 0 320px;
+
 }
 .pokeDataContainer {
     display:flex;

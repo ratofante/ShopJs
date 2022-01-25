@@ -7,13 +7,15 @@
  * 
  * searchPokemon()
  * 
+ * searchSpecies()
+ * 
+ * UTILITIES
+ * 
  * setAttributes()
  * makeElement()
  * capitalize()
  * clearTargetChilds()
  * clearTargetContent() 
- * 
- * searchSpecies()
  *
  */
 
@@ -65,7 +67,7 @@ function initList(array) {
         // Main Container li[div.pokeDataContainer][div.pokeImgContainer]
         let listItem = makeElement("li");
         setAttributes(listItem, {
-            "class" : "list-group-item",
+            "class" : "list-group-item pokeProduct",
         });
         let pokeDataContainer = makeElement("div");
         setAttributes(pokeDataContainer, {
@@ -185,6 +187,8 @@ function initList(array) {
 
             $("#pokeTitle").html("#"+id+" - "+pokeData.name);
             $("#pokeImg").attr("src", pokeData.sprites.other["official-artwork"].front_default);
+            
+            // SEARCH SPECIES
             searchSpecies(id);
 
             $("#pokeCardTarget").removeClass("hideMe");

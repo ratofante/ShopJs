@@ -31,7 +31,7 @@
         <!--SEARCHBAR-->
  
         <div class="searchBar p-2 bg-dark">
-          <div class="d-flex flex-column">
+          <div class="d-flex flex-column searchBarContainer">
             <label id="pokeSearchLabel" for="pokeSearch" class="form-label text-white">Find a Pokemon! </label>
             <input id="pokeSearch" class="" type="text" class="form-control" name="pokeSearch"  aria-describedby="pokeHint" aria-label="Search" placeholder="Write down a pokemon name">
           </div>
@@ -79,25 +79,22 @@
  
     <hr class="separator"> 
       
-    <div id="pokeCardTarget" class="hideMe col-sm-12 col-md-6 mx-auto p-1 shadow rounded">
-      <!-- POKECARD -->
-      <!--
-      <div class="card pokeCard m-auto">
-          <div class="imgCardContainer">
-              <img id="pokeImg" class="card-img-top" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" alt="pokemon">
-          </div>
-          <div class="card-body">
-              <h4 id="pokeTitle" class="card-title">#4 - charmander</h4>
-              <p id="pokeDescription" class="card-text">Legendary bird POKéMON. It is said to migratefrom the south along with the spring.</p>
-          </div>
-      </div>
-      -->
-    </div>
-
     <div class="container-fluid">
-      <div class="row">
-        <div class="col">
-          <ul id="listOrigin" class="list-group mt-3">
+      <ul id="listOrigin" class="list-group mt-3">
+      <li id="pokeCardTarget" class="p-1 shadow rounded">
+        <!-- POKECARD -->
+        <!--
+        <div class="card pokeCard m-auto">
+            <div class="imgCardContainer">
+                <img id="pokeImg" class="card-img-top" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" alt="pokemon">
+            </div>
+            <div class="card-body">
+                <h4 id="pokeTitle" class="card-title">#4 - charmander</h4>
+                <p id="pokeDescription" class="card-text">Legendary bird POKéMON. It is said to migratefrom the south along with the spring.</p>
+            </div>
+        </div>
+        -->
+      </li>
             <!-- Items -->
             <!--li class="list-group-item">
               <div class="pokeDataContainer">
@@ -114,9 +111,9 @@
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png" alt="">
               </div>
             </li-->
-          </ul>
-        </div>
-      </div>
+        </ul>
+        
+
     </div>
       
     <!-- Bootstrap JavaScript Libraries -->
