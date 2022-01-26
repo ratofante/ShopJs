@@ -1,4 +1,14 @@
 /*
+    Variables
+*/
+:root {
+    --border-radius: .3rem;
+    --main-border: 1px solid rgba(0,0,0,.125);
+
+    --pokeCard-bg-color: #bfd0f2;
+}
+
+/*
     UTILITY CLASSES
 */
 .showMe {
@@ -11,16 +21,48 @@
 /*
     HEADER y NAVBAR
 */
+.shopHeader {
+    background-image: url('../img/pokemon-bg-trans.png');
+    background-position-x: 42vw;
+    background-position-y: -7vh;
+    background-repeat: no-repeat;
+    padding: 2rem !important;
+    height: 242px;
+}
+.headerText {
+    background-color: #80808070;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+}
+.headerText:nth-child(2) {
+    font-weight: 600;
+}
+.shopHeader hr {
+    max-width: 278px;
+}
+@media (min-width:760px) {
+    .shopHeader {
+        background-image: url('../img/pokemon-bg-trans.png');
+        background-position-x: right;
+        background-position-y: initial;
+        background-size: contain;
+    }
+}
 .navMenuContainer {
     position:sticky;
     top: 0;
     z-index: 5;
+    box-shadow: 0px 4px 9px #0000008c;
 }
 .searchBar {
     width:100%;
 }
 .searchBarContainer {
     max-width: 400px;
+}
+#pokeSearch {
+    height: 35px;
+    padding-left: 1rem;
 }
 .nav-link {
     padding: .5rem .5rem !important;
@@ -33,7 +75,9 @@
     right:0px;
     margin-right: 1rem;
 }
-
+.searchInput {
+    max-width: 400px;
+}
 @media (min-width:576px) {
     
 }
@@ -49,13 +93,18 @@
 */
 .productInfo {
     display: flex;
-    border: .1rem solid black;
+    flex-flow: column-reverse;
+    border-right: 1px solid #0006;
+    border-top: 1px solid #0006;
+    border-radius: var(--border-radius);
+    box-shadow: -2px 2px 3px #00000082;
 }
 #pokeCardTarget {
     justify-self: end;
     width: 100%;
     order: initial;
     max-width: 450px;
+    margin:auto;
 }
 .cardInfo {
     width: 100%;
@@ -66,6 +115,9 @@
     border: .1rem solid black;
 }
 @media (min-width:760px) {
+    .productInfo {
+        flex-flow: row;
+    }
     #pokeCardTarget {
         max-width: 350px;
     }
@@ -83,34 +135,59 @@
 }
 .list-group-item {
     display: flex;
-    justify-content: space-around;
-    padding: .5rem;
+    justify-content: space-between;
+    padding: .2rem;
     margin: .5rem;
-    box-shadow: 1px 1px 5px #000000ab;
+    box-shadow: -1px 1px 3px #00000070;
     max-width: 350px;
     min-width:300px;
     max-height: 140px;
     flex: 1 0 320px;
+    padding: .25rem;
+    border-radius: var(--border-radius);
 
 }
 .pokeDataContainer {
     display:flex;
     flex-flow: column;
-    align-items: center;
-    justify-content: center;
+    
+    width: 60%;
+    border:var(--main-border);
+    border-right: 0;
+    border-radius: var(--border-radius);
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
 }
 .pokeCardInfo{
     margin-bottom: 1rem;
+    height: 60px;
+    display: flex;
+    align-items: baseline;
+    justify-content: initial;
+    margin: .5rem auto;
+    padding: 1rem;
 }
 .pokeCardInfo > * {
     display: inline;
+    
 }
 .pokeCardInfo p {
     margin-left:1rem;
     font-weight: bold;
 }
+.pokeCardButtons {
+    display: flex;
+    justify-content: center;
+    height: 35px;
+}
 .pokeImgContainer {
     width: 40%;
+    border: var(--main-border);
+    border-radius: var(--border-radius);
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    background-color: var(--pokeCard-bg-color);
+    
 }
 .pokeImgContainer img {
     width: 100%;

@@ -102,6 +102,10 @@ function initList(array) {
             "class" : "pokeCardButtons",
         });
         $(pokeDataContainer).append(pokeCardButtons);
+
+        /************************************** */
+        // ADD button. Function -> addProduct(id)
+        /************************************** */
         let addButton = makeElement("button");
         setAttributes(addButton, {
             "class" : "btn btn-secondary",
@@ -110,11 +114,16 @@ function initList(array) {
         });
         $(addButton).html("Add");
         $(pokeCardButtons).append(addButton);
+
+        /************************************** */
+        // SEE button. Function -> seeProduct(id)
+        /************************************** */
         let seeButton = makeElement("button");
         setAttributes(seeButton, {
             "class" : "btn btn-primary mx-2",
             "type" : "button",
             "value" : array[key].id,
+            "onclick" : "seeProduct(this.value)"
         });
         $(seeButton).html("See");
         $(pokeCardButtons).append(seeButton);
@@ -131,7 +140,6 @@ function initList(array) {
         $("#listOrigin").append(listItem);
     }
 }
-
 /**
  * 
  * searchPokemon(id)
@@ -192,15 +200,16 @@ function initList(array) {
             searchSpecies(id);
 
             $(".productInfo").removeClass("hideMe");
-            $(".prductInfo").addClass("showMe");
+            $(".productInfo").addClass("showMe");
 
             clearTargetChilds("#candidatos");
             clearTargetChilds("#pokeHint");
             clearInputContent("#pokeSearch");
 
-            $("html, body").animate({ scrollTop: 50 }, "slow");
-                       
-
+            $.scrollTo('html',{
+                duration: 500,
+                offset: {top:242},
+            })
         } else {
             console.log("error");
         }
@@ -209,7 +218,7 @@ function initList(array) {
  }
 /**
  * 
- * searchSpecies()
+ * searchSpecies(id)
  * 
  * 
  */
@@ -227,6 +236,24 @@ function searchSpecies(id) {
         }
     }
     request.send();
+}
+/**
+ * 
+ * seeProduct(id)
+ * 
+ * 
+ */
+function seeProduct(id) {
+    console.log(id);
+    console.log($(".productInfo").hasClass("showMe"));
+    if($(".productInfo").hasClass("showMe")){
+        $(".productInfo").removeClass("showMe");
+        $(".productInfo").addClass("hideMe");
+    }
+    $("#pokeCardTarget").empty();
+    searchPokemon(id);
+    
+
 }
 /**
  * 

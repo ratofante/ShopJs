@@ -1,25 +1,14 @@
 $(document).ready(function(){
-
     getPokemons(urlPokeApi, 151);
-    const checkPokeMapRdy = setInterval(function() {checkRdy(pokeMap), 500});
-    
-    function checkRdy(arr) {
-        if(arr.size === 151)
+    const checkPokeDataRdy = setInterval(function() {checkRdy(allPokeData), 500});
+    function checkRdy(obj) {
+        if(Object.keys(obj).length === 151)
         {
-            stopCheckRdy();
-            console.log(allPokeData);
-            console.log(pokeMap);
-            //console.log(allPokeData[25]);
-            //console.log(pokeMap.get(25));
-
+            clearInterval(checkPokeDataRdy);
             // List / Cards Code here ..
             initList(allPokeData);
-
         }
     }
-    function stopCheckRdy() {clearInterval(checkPokeMapRdy)}
-
-    initList();
 
     $("#pokeSearch").on("input", function() {
         $("#candidatos").empty();

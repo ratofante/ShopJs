@@ -50,7 +50,7 @@ const findPokemon = {
             let newDiv = makeElement("div");
             setAttributes(newDiv, {
                 "id":'choice-'+key,
-                "class":'bg-secondary my-1 d-flex align-content-center justify-content-between rounded'
+                "class":'searchInput bg-secondary my-1 d-flex align-content-center justify-content-between rounded'
             });
             $(target).append(newDiv);
 
