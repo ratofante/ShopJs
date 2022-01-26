@@ -5,7 +5,7 @@
     display:block;
 }
 .hideMe {
-    display:none;
+    display:none !important;
 }
 
 /*
@@ -44,19 +44,37 @@
 }
 
 /*
-* Card Products
+* Card Product
 *
 */
+.productInfo {
+    display: flex;
+    border: .1rem solid black;
+}
 #pokeCardTarget {
+    justify-self: end;
     width: 100%;
     order: initial;
     max-width: 450px;
+}
+.cardInfo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+    border: .1rem solid black;
 }
 @media (min-width:760px) {
     #pokeCardTarget {
         max-width: 350px;
     }
 }
+
+/*
+* List of Pokemons
+*
+*/
 #listOrigin {
     display:flex;
     flex-flow: wrap;

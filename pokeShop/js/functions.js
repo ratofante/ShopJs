@@ -191,8 +191,8 @@ function initList(array) {
             // SEARCH SPECIES
             searchSpecies(id);
 
-            $("#pokeCardTarget").removeClass("hideMe");
-            $("#pokeCardTarget").addClass("showMe");
+            $(".productInfo").removeClass("hideMe");
+            $(".prductInfo").addClass("showMe");
 
             clearTargetChilds("#candidatos");
             clearTargetChilds("#pokeHint");
