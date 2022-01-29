@@ -1,11 +1,21 @@
+/***
+ *  INDEX
+ * 
+ *  FindPokemon 
+ *  ElementGenerator
+ * 
+ * 
+ */
+
+
 /**
- * findPokemon
+ * FindPokemon
  * --> 
  * 
  * 
  * 
  */
-const findPokemon = {
+const FindPokemon = {
     url : "https://pokeapi.co/api/v2/pokemon-species/",
     pokeArray: [],
     pokeChosen: [],
@@ -39,7 +49,8 @@ const findPokemon = {
     },
     createSearchInput: function(pokemons, target) {
         for(var key in pokemons) {
-            let previous = document.getElementById("choice-"+key);
+            
+            let previous = document.getElementById("choice");
             console.log(previous);
             
             if(previous != null){
@@ -57,11 +68,12 @@ const findPokemon = {
             //Creamos el #id - Pokemon <p>
             let newPokemon = document.createElement("p");
             newPokemon.setAttribute('class', 'text-white mb-0 align-self-center mx-3');
-            let pokemonName = document.createTextNode('#'+pokemons[key][1]+" - "+pokemons[key][0]);
-            newPokemon.append(pokemonName);
+            $(newPokemon).html('#'+pokemons[key][1]+" - "+pokemons[key][0]);
             newDiv.appendChild(newPokemon);
 
             //Creamos el button
+            /********************* */
+            // SEARCH   function-> searchPokemon(id)
             let button = document.createElement("button");
             setAttributes(button,
                 {
@@ -75,3 +87,54 @@ const findPokemon = {
         }
     }
 }
+
+
+const ElementGenerator = {
+    /**
+     * @param element = Nombre del Elemento : "p" o "div", etcétera
+     * @param atributos = assocArray {'tipoAtributo' : 'especificacion'}
+     * --> {'class':'col-4 text-dark', 'type' : 'button'}
+     * @param target = elemento de destino
+     * @param ubicacion = default: append (if Null). Jquery preprend, after & before.
+     * @param contenido = String. default: null
+     * 
+     * 
+     * 
+     */
+    elemento : null,
+    generate: function(element, atributos, target, ubicacion = null, contenido = null) {
+        this.elemento = this.element(element);
+        this.atributos(this.elemento, atributos);
+        this.posicionar(this.elemento, target, ubicacion);
+        if(typeof(contenido)==='string'){
+            this.contenido(this.elemento,contenido);
+        }
+    },
+    element: function(e) {
+        return document.createElement(e);
+    },
+    atributos: function(element, atributos) {
+        for(var key in atributos) {
+            element.setAttribute(key, atributos[key]);
+        }
+    },
+    posicionar: function(element, target, ubicacion){
+        switch (ubicacion) {
+            case "prepend":
+                $(target).prepend(element);
+                break;
+            case "after":
+                $(target).after(element);
+                break;   
+            case "before":
+                $(target).before(element);
+            default:
+                $(target).append(element);
+                break;
+        }
+    },
+    contenido : function(element, cont) {
+        $(element).html(cont);
+    }
+}
+

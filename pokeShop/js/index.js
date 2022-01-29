@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    
     getPokemons(urlPokeApi, 151);
     const checkPokeDataRdy = setInterval(function() {checkRdy(allPokeData), 500});
     function checkRdy(obj) {
@@ -14,14 +15,23 @@ $(document).ready(function(){
         $("#candidatos").empty();
         var text = $(this).val();
 
-        var pokemons = findPokemon.getHint(text, "#pokeHint");
+        var pokemons = FindPokemon.getHint(text, "#pokeHint");
         if(Array.isArray(pokemons)){
             console.log(pokemons);
-            findPokemon.createSearchInput(pokemons, "#candidatos");
+            FindPokemon.createSearchInput(pokemons, "#candidatos");
             //clearTarget("#candidatos");
         }
     });
 
+    /*ElementGenerator.generate(
+        "h1",
+        {'class':'text-center',
+        'id':'thisP'},
+        '.searchBar',
+        'prepend',
+        'Este es mi párrafo'
+    );
+    */
     /*
     fetch(urlPokeApi+1)
         .then((resp) => resp.json()) 
