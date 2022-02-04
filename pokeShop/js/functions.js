@@ -147,6 +147,11 @@ function initList(array) {
  *  
  */
  function searchPokemon(id) {
+
+    fetch(urlPokeApi+id)
+    .then((resp) => resp.json())
+    .then()
+
     let url = urlPokeApi+id;
     //console.log(url);
     let request = new XMLHttpRequest();
@@ -160,39 +165,37 @@ function initList(array) {
             }
             
             //Armo Card:
-            let pokeCard = document.createElement("div");
-            pokeCard.setAttribute("class","card pokeCard m-auto");
-            $("#pokeCardTarget").append(pokeCard);
-            let imgCardContainer = document.createElement("div");
-            imgCardContainer.setAttribute("class","imgCardContainer");
-            $(".pokeCard").append(imgCardContainer);
-            let pokeImg = document.createElement("img");
-            setAttributes(pokeImg, {
-                "id":"pokeImg",
-                "class":"card-img-top",
-                "alt":"pokemon"
-            });
-            $(".imgCardContainer").append(pokeImg);
-
-            let cardBody = document.createElement("div");
-            cardBody.setAttribute("class","card-body");
-            $(".pokeCard").append(cardBody);
-
-            let title = document.createElement("h4");
-            setAttributes(title,{
-                "id":"pokeTitle",
-                "class":"card-title"
-            });
-            $(".card-body").append(title);
-
-            let descript = document.createElement("p");
-            setAttributes(descript, {
-                "id":"pokeDescription",
-                "class":"card-text"
-            })
-            $(".card-body").append(descript);
-
-
+            ElementGenerator.generate(
+                "div",
+                {"class":"card pokeCard m-auto"},
+                "#pokeCardTarget"
+            );
+            ElementGenerator.generate(
+                "div",
+                {'class':'imgCardContainer'},
+                ".pokeCard"
+            );
+            ElementGenerator.generate(
+                "img",
+                {'id':'pokeImg','class':'card-img-top','alt':'pokemon'},
+                ".imgCardContainer"
+            );
+            ElementGenerator.generate(
+                "div",
+                {'class':'card-body'},
+                ".pokeCard"
+            );
+            ElementGenerator.generate(
+                "h4",
+                {'id':'pokeTitle','class':'card-title'},
+                ".card-body",
+                null,
+            );
+            ElementGenerator.generate(
+                "p",
+                {'id':'pokeDescription', 'class':'card-text'},
+                ".card-body"
+            );
             $("#pokeTitle").html("#"+id+" - "+pokeData.name);
             $("#pokeImg").attr("src", pokeData.sprites.other["official-artwork"].front_default);
             

@@ -22,16 +22,6 @@ $(document).ready(function(){
             //clearTarget("#candidatos");
         }
     });
-
-    /*ElementGenerator.generate(
-        "h1",
-        {'class':'text-center',
-        'id':'thisP'},
-        '.searchBar',
-        'prepend',
-        'Este es mi párrafo'
-    );
-    */
     /*
     fetch(urlPokeApi+1)
         .then((resp) => resp.json()) 
