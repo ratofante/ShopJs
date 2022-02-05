@@ -3,16 +3,7 @@
  * 
  *  FindPokemon 
  *  ElementGenerator
- * 
- * 
- */
-
-
-/**
- * FindPokemon
- * --> 
- * 
- * 
+ *  ProductViewManager
  * 
  */
 const FindPokemon = {
@@ -43,7 +34,6 @@ const FindPokemon = {
         this.pokeArray = [];
         this.pokeChosen = [];
         if(this.pokeFinal.length > 0){
-            
             return this.pokeFinal;
         }
     },
@@ -54,40 +44,30 @@ const FindPokemon = {
             console.log(previous);
             
             if(previous != null){
-                previous.remove();
-            }
-
-            // Creamos la Div 'choice-id'
-            let newDiv = makeElement("div");
-            setAttributes(newDiv, {
-                "id":'choice-'+key,
-                "class":'searchInput bg-secondary my-1 d-flex align-content-center justify-content-between rounded'
-            });
-            $(target).append(newDiv);
-
-            //Creamos el #id - Pokemon <p>
-            let newPokemon = document.createElement("p");
-            newPokemon.setAttribute('class', 'text-white mb-0 align-self-center mx-3');
-            $(newPokemon).html('#'+pokemons[key][1]+" - "+pokemons[key][0]);
-            newDiv.appendChild(newPokemon);
-
-            //Creamos el button
-            /********************* */
-            // SEARCH   function-> searchPokemon(id)
-            let button = document.createElement("button");
-            setAttributes(button,
-                {
-                    "class":"btn btn-primary",
-                    "value":pokemons[key][1],
-                    "onclick":"searchPokemon(this.value)",
-                });
-            let buttonText = document.createTextNode("search!");
-            button.appendChild(buttonText);
-            newDiv.appendChild(button);
+                previous.remove()}
+            ElementGenerator.generate(
+                "div",
+                {'id':'choice-'+key, 'class':'searchInput bg-secondary my-1 d-flex align-content-center justify-content-between rounded'},
+                target);
+            ElementGenerator.generate(
+                "p", 
+                {'class':'text-white mb-0 align-self-center mx-3'},
+                "#choice-"+key,
+                null,
+                '#'+pokemons[key][1]+" - "+pokemons[key][0]);
+            // SEARCH BUTTON   function-> searchPokemon(id)
+            ElementGenerator.generate(
+                "button", {
+                    'class':'btn btn-primary',
+                    'value':pokemons[key][1],
+                    'onclick':'searchPokemon(this.value)'
+                },
+                "#choice-"+key,
+                null,
+                "search!");
         }
     }
 }
-
 
 const ElementGenerator = {
     /**
@@ -136,21 +116,19 @@ const ElementGenerator = {
 }
 
 const ProductViewManager = {
-
-
     viewAsList : function(array) {
         for (let key in array) {
             let listItem = makeElement("li");
-            setAttributes(listItem, {'class': 'list-group-item pokeProduct'});
+            setAttributes(listItem, {'class': 'list-group-item-list'});
             $("#listOrigin").append(listItem);
     
             let pokeDataContainer = makeElement("div");
-            setAttributes(pokeDataContainer, {'class':'pokeDataContainer'});
+            setAttributes(pokeDataContainer, {'class':'pokeDataContainerList'});
             listItem.append(pokeDataContainer);
     
             // CardInfo: h4 título, p valor $$
             let pokeCardInfo = makeElement("div");
-            setAttributes(pokeCardInfo, {'class':'pokeCardInfo'});
+            setAttributes(pokeCardInfo, {'class':'pokeCardInfoList'});
             pokeDataContainer.append(pokeCardInfo);
     
             let pokeCardName = makeElement("h4");
@@ -174,17 +152,97 @@ const ProductViewManager = {
                 'value':array[key].id,
                 'onclick':'addProduct(this.value)'
             });
+            $(add).html("Add");
             pokeCardButtons.append(add);
     
             let see = makeElement("button");
             setAttributes(see, {
-                'class':'btn btn-primary',
+                'class':'btn btn-primary mx-2',
                 'type':'button',
                 'value':array[key].id,
                 'onclick':'seeProduct(this.value)'
             });
+            $(see).html("See");
             pokeCardButtons.append(see);
         }
+    },
+    viewAsCard : function(array) {
+        for(var key in array) {
+            // Main Container li[div.pokeDataContainer][div.pokeImgContainer]
+            let listItem = makeElement("li");
+            setAttributes(listItem, {
+                "class" : "list-group-item-card",
+            });
+            $("#listOrigin").append(listItem);
+    
+            let pokeDataContainer = makeElement("div");
+            setAttributes(pokeDataContainer, {
+                "class" : "pokeDataContainerCard",
+            });
+            $(listItem).append(pokeDataContainer);
+    
+            let pokeImgContainer = makeElement("div");
+            setAttributes(pokeImgContainer, {
+                "class" : "pokeImgContainer",
+            });
+            listItem.append(pokeImgContainer);
+    
+            //pokeDataContainer[div.pokeCardInfo[h4.pokeCardName][p]]]
+            let pokeCardInfo = makeElement("div");
+            setAttributes(pokeCardInfo, {
+                "class" : "pokeCardInfo",
+            });
+            $(pokeDataContainer).append(pokeCardInfo);
+    
+            let pokeCardName = makeElement("h4");
+            setAttributes(pokeCardName, {
+                "class" : "pokeCardName",
+            });
+            $(pokeCardName).html(capitalize(array[key].name));
+            $(pokeCardInfo).append(pokeCardName);
+    
+            let price = makeElement("p");
+            $(price).html("$"+array[key].price);
+            $(pokeCardInfo).append(price);
+    
+            //pokeCardButtons []
+            let pokeCardButtons = makeElement("div");
+            setAttributes(pokeCardButtons, {
+                "class" : "pokeCardButtons",
+            });
+            $(pokeDataContainer).append(pokeCardButtons);
+    
+            //addProduct() Button
+            let addButton = makeElement("button");
+            setAttributes(addButton, {
+                "class" : "btn btn-secondary",
+                "type" : "button",
+                "value" : array[key].id,
+                'onclick':'addProduct(this.value)'
+            });
+            $(addButton).html("Add");
+            $(pokeCardButtons).append(addButton);
+            
+            //seeProduct() Button
+            let seeButton = makeElement("button");
+            setAttributes(seeButton, {
+                "class" : "btn btn-primary mx-2",
+                "type" : "button",
+                "value" : array[key].id,
+                "onclick" : "seeProduct(this.value)"
+            });
+            $(seeButton).html("See");
+            $(pokeCardButtons).append(seeButton);
+    
+            //pokeImgContainer[img]
+            let pokeImg = makeElement("img");
+            setAttributes(pokeImg, {
+                "src" : array[key].frontDefault,
+                "alt" : array[key].name,
+            });
+            $(pokeImgContainer).append(pokeImg);  
+        }
     }
+
 }
 

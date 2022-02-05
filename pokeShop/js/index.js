@@ -7,10 +7,9 @@ $(document).ready(function(){
         {
             clearInterval(checkPokeDataRdy);
             
-            initCardList(allPokeData);
+            ProductViewManager.viewAsCard(allPokeData);
         }
     }
-
     $("#pokeSearch").on("input", function() {
         $("#candidatos").empty();
         var text = $(this).val();
