@@ -3,7 +3,7 @@
  * 
  * getPokemons()
  * 
- * initList()
+ * initCardList()
  * 
  * searchPokemon()
  * 
@@ -43,37 +43,51 @@
             };
             allPokeData[resp.id] = pokemon;
 
-            pokeMap.set(resp.id, {
+            /*pokeMap.set(resp.id, {
                 'id':resp.id,
                 'name':resp.name,
                 'frontDefault':resp.sprites.front_default,
                 'bigImg' : resp.sprites.other["official-artwork"].front_default,
-            });
+            });*/
         })
         .catch(function(error) {
             console.log(error);
         })
     }
 }
+
+function viewAsList() {
+    $("#listOrigin").empty();
+    ProductViewManager.viewAsList(allPokeData);
+}
+
+
+
+
+
+
 /***
- * INIT LIST
+ * INIT CARD LIST
  * 
- * Para crear una lista con todos los productos
- * 
+ * Para renderizar allPokeData en formato Card.
+ * param = allPokeData  // Desde getPokemons()
  * 
  */
-function initList(array) {
+function initCardList(array) {
     for(var key in array) {
         // Main Container li[div.pokeDataContainer][div.pokeImgContainer]
         let listItem = makeElement("li");
         setAttributes(listItem, {
             "class" : "list-group-item pokeProduct",
         });
+        $("#listOrigin").append(listItem);
+
         let pokeDataContainer = makeElement("div");
         setAttributes(pokeDataContainer, {
             "class" : "pokeDataContainer",
         });
         $(listItem).append(pokeDataContainer);
+
         let pokeImgContainer = makeElement("div");
         setAttributes(pokeImgContainer, {
             "class" : "pokeImgContainer",
@@ -86,12 +100,14 @@ function initList(array) {
             "class" : "pokeCardInfo",
         });
         $(pokeDataContainer).append(pokeCardInfo);
+
         let pokeCardName = makeElement("h4");
         setAttributes(pokeCardName, {
             "class" : "pokeCardName",
         });
         $(pokeCardName).html(capitalize(array[key].name));
         $(pokeCardInfo).append(pokeCardName);
+
         let price = makeElement("p");
         $(price).html("$"+array[key].price);
         $(pokeCardInfo).append(price);
@@ -111,6 +127,7 @@ function initList(array) {
             "class" : "btn btn-secondary",
             "type" : "button",
             "value" : array[key].id,
+            'onclick':'addProduct(this.value)'
         });
         $(addButton).html("Add");
         $(pokeCardButtons).append(addButton);
@@ -134,10 +151,62 @@ function initList(array) {
             "src" : array[key].frontDefault,
             "alt" : array[key].name,
         });
-        $(pokeImgContainer).append(pokeImg);
-
-        // -Finish!
+        $(pokeImgContainer).append(pokeImg);  
+    }
+}
+/*
+ * initListList 
+ * 
+ *  Para renderizar allPokeData como Lista.
+ *  param = allPokeData  // Desde getPokemons()
+ * 
+ */
+function initListList(array) {
+    for (let key in array) {
+        let listItem = makeElement("li");
+        setAttributes(listItem, {'class': 'list-group-item pokeProduct'});
         $("#listOrigin").append(listItem);
+
+        let pokeDataContainer = makeElement("div");
+        setAttributes(pokeDataContainer, {'class':'pokeDataContainer'});
+        listItem.append(pokeDataContainer);
+
+        // CardInfo: h4 título, p valor $$
+        let pokeCardInfo = makeElement("div");
+        setAttributes(pokeCardInfo, {'class':'pokeCardInfo'});
+        pokeDataContainer.append(pokeCardInfo);
+
+        let pokeCardName = makeElement("h4");
+        setAttributes(pokeCardName,{'class':'pokeCardName'});
+        pokeCardName.html(capitalize(array[key].name));
+        pokeCardInfo.append(pokeCardName);
+
+        let price = makeElement("p");
+        price.html("$"+array[key].price);
+        pokeCardInfo.append(price);
+
+        //Buttons
+        let pokeCardButtons = makeElement("div");
+        setAttributes(pokeCardButtons, {'class':'pokeCardButtons'});
+        pokeDataContainer.append(pokeCardButtons);
+
+        let add = makeElement("button");
+        setAttributes(add, {
+            'class':'btn btn-secondary',
+            'type':'button',
+            'value':array[key].id,
+            'onclick':'addProduct(this.value)'
+        });
+        pokeCardButtons.append(add);
+
+        let see = makeElement("button");
+        setAttributes(see, {
+            'class':'btn btn-primary',
+            'type':'button',
+            'value':array[key].id,
+            'onclick':'seeProduct(this.value)'
+        });
+        pokeCardButtons.append(see);
     }
 }
 /**
@@ -147,78 +216,66 @@ function initList(array) {
  *  
  */
  function searchPokemon(id) {
-
     fetch(urlPokeApi+id)
     .then((resp) => resp.json())
-    .then()
-
-    let url = urlPokeApi+id;
-    //console.log(url);
-    let request = new XMLHttpRequest();
-    request.open('GET',url,true);
-    request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-            var pokeData = JSON.parse(this.response);
-
-            if($(".pokeCard").length > 0){
-                $(".pokeCard").remove();
-            }
-            
-            //Armo Card:
-            ElementGenerator.generate(
-                "div",
-                {"class":"card pokeCard m-auto"},
-                "#pokeCardTarget"
-            );
-            ElementGenerator.generate(
-                "div",
-                {'class':'imgCardContainer'},
-                ".pokeCard"
-            );
-            ElementGenerator.generate(
-                "img",
-                {'id':'pokeImg','class':'card-img-top','alt':'pokemon'},
-                ".imgCardContainer"
-            );
-            ElementGenerator.generate(
-                "div",
-                {'class':'card-body'},
-                ".pokeCard"
-            );
-            ElementGenerator.generate(
-                "h4",
-                {'id':'pokeTitle','class':'card-title'},
-                ".card-body",
-                null,
-            );
-            ElementGenerator.generate(
-                "p",
-                {'id':'pokeDescription', 'class':'card-text'},
-                ".card-body"
-            );
-            $("#pokeTitle").html("#"+id+" - "+pokeData.name);
-            $("#pokeImg").attr("src", pokeData.sprites.other["official-artwork"].front_default);
-            
-            // SEARCH SPECIES
-            searchSpecies(id);
-
-            $(".productInfo").removeClass("hideMe");
-            $(".productInfo").addClass("showMe");
-
-            clearTargetChilds("#candidatos");
-            clearTargetChilds("#pokeHint");
-            clearInputContent("#pokeSearch");
-
-            $.scrollTo('html',{
-                duration: 500,
-                offset: {top:242},
-            })
-        } else {
-            console.log("error");
+    .then(function(resp){
+        if($(".pokeCard").length > 0){
+            $(".pokeCard").remove();
         }
-    }
-    request.send();
- }
+        //Armo Card:
+        ElementGenerator.generate(
+            "div",
+            {"class":"card pokeCard m-auto"},
+            "#pokeCardTarget"
+        );
+        ElementGenerator.generate(
+            "div",
+            {'class':'imgCardContainer'},
+            ".pokeCard"
+        );
+        ElementGenerator.generate(
+            "img",
+            {'id':'pokeImg','class':'card-img-top','alt':'pokemon'},
+            ".imgCardContainer"
+        );
+        ElementGenerator.generate(
+            "div",
+            {'class':'card-body'},
+            ".pokeCard"
+        );
+        ElementGenerator.generate(
+            "h4",
+            {'id':'pokeTitle','class':'card-title'},
+            ".card-body",
+            null,
+        );
+        ElementGenerator.generate(
+            "p",
+            {'id':'pokeDescription', 'class':'card-text'},
+            ".card-body"
+        );
+        $("#pokeTitle").html("#"+id+" - "+resp.name);
+        $("#pokeImg").attr("src", resp.sprites.other["official-artwork"].front_default);
+        
+        // SEARCH SPECIES
+        searchSpecies(id);
+
+        $(".productInfo").removeClass("hideMe");
+        $(".productInfo").addClass("showMe");
+
+        clearTargetChilds("#candidatos");
+        clearTargetChilds("#pokeHint");
+        clearInputContent("#pokeSearch");
+
+        $.scrollTo('html',{
+            duration: 500,
+            offset: {top:242},
+        })
+    })
+    .catch(function(error){
+        console.log(error);
+    })
+}
 /**
  * 
  * searchSpecies(id)
@@ -226,19 +283,14 @@ function initList(array) {
  * 
  */
 function searchSpecies(id) {
-    let url = urlPokeSpecies+id;
-    let request = new XMLHttpRequest();
-    request.open('GET',url,true);
-    request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-            let pokeData = JSON.parse(this.response);
-            //Armo description:
-            $("#pokeDescription").html(pokeData.flavor_text_entries[0].flavor_text);
-        } else {
-            console.log("error");
-        }
-    }
-    request.send();
+    fetch(urlPokeSpecies+id)
+    .then((resp) => resp.json())
+    .then(function(resp) {
+        $("#pokeDescription").html(resp.flavor_text_entries[0].flavor_text);
+    })
+    .catch(function(error){
+        console.log(error)
+    });
 }
 /**
  * 
@@ -255,8 +307,6 @@ function seeProduct(id) {
     }
     $("#pokeCardTarget").empty();
     searchPokemon(id);
-    
-
 }
 /**
  * 

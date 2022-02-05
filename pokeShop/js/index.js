@@ -6,8 +6,8 @@ $(document).ready(function(){
         if(Object.keys(obj).length === 151)
         {
             clearInterval(checkPokeDataRdy);
-            // List / Cards Code here ..
-            initList(allPokeData);
+            
+            initCardList(allPokeData);
         }
     }
 
@@ -19,17 +19,6 @@ $(document).ready(function(){
         if(Array.isArray(pokemons)){
             console.log(pokemons);
             FindPokemon.createSearchInput(pokemons, "#candidatos");
-            //clearTarget("#candidatos");
         }
     });
-    /*
-    fetch(urlPokeApi+1)
-        .then((resp) => resp.json()) 
-        .then(function(resp) {
-            //console.log(resp.name);
-        })
-        .catch(function(error) {
-            console.log(error);
-    });
-    */
 });

@@ -97,9 +97,6 @@ const ElementGenerator = {
      * @param target = elemento de destino
      * @param ubicacion = default: append (if Null). Jquery preprend, after & before.
      * @param contenido = String. default: null
-     * 
-     * 
-     * 
      */
     elemento : null,
     generate: function(element, atributos, target, ubicacion = null, contenido = null) {
@@ -135,6 +132,59 @@ const ElementGenerator = {
     },
     contenido : function(element, cont) {
         $(element).html(cont);
+    }
+}
+
+const ProductViewManager = {
+
+
+    viewAsList : function(array) {
+        for (let key in array) {
+            let listItem = makeElement("li");
+            setAttributes(listItem, {'class': 'list-group-item pokeProduct'});
+            $("#listOrigin").append(listItem);
+    
+            let pokeDataContainer = makeElement("div");
+            setAttributes(pokeDataContainer, {'class':'pokeDataContainer'});
+            listItem.append(pokeDataContainer);
+    
+            // CardInfo: h4 título, p valor $$
+            let pokeCardInfo = makeElement("div");
+            setAttributes(pokeCardInfo, {'class':'pokeCardInfo'});
+            pokeDataContainer.append(pokeCardInfo);
+    
+            let pokeCardName = makeElement("h4");
+            setAttributes(pokeCardName,{'class':'pokeCardName'});
+            $(pokeCardName).html(capitalize(array[key].name));
+            pokeCardInfo.append(pokeCardName);
+    
+            let price = makeElement("p");
+            $(price).html("$"+array[key].price);
+            pokeCardInfo.append(price);
+    
+            //Buttons
+            let pokeCardButtons = makeElement("div");
+            setAttributes(pokeCardButtons, {'class':'pokeCardButtons'});
+            pokeDataContainer.append(pokeCardButtons);
+    
+            let add = makeElement("button");
+            setAttributes(add, {
+                'class':'btn btn-secondary',
+                'type':'button',
+                'value':array[key].id,
+                'onclick':'addProduct(this.value)'
+            });
+            pokeCardButtons.append(add);
+    
+            let see = makeElement("button");
+            setAttributes(see, {
+                'class':'btn btn-primary',
+                'type':'button',
+                'value':array[key].id,
+                'onclick':'seeProduct(this.value)'
+            });
+            pokeCardButtons.append(see);
+        }
     }
 }
 
