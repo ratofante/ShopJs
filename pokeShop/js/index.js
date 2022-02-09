@@ -6,18 +6,22 @@ $(document).ready(function(){
         if(Object.keys(obj).length === 151)
         {
             clearInterval(checkPokeDataRdy);
-            
             ProductViewManager.viewAsCard(allPokeData);
         }
     }
+
+    //Barra 'Buscador'
     $("#pokeSearch").on("input", function() {
         $("#candidatos").empty();
         var text = $(this).val();
 
         var pokemons = FindPokemon.getHint(text, "#pokeHint");
         if(Array.isArray(pokemons)){
-            console.log(pokemons);
             FindPokemon.createSearchInput(pokemons, "#candidatos");
         }
     });
+    if($("#cartItems").html()== ""){
+        console.log('vacio')
+    } else {console.log('otra cosa')}
+
 });

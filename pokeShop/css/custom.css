@@ -1,16 +1,18 @@
 /*
     Variables
 */
+
 :root {
     --border-radius: .3rem;
     --main-border: 1px solid rgba(0, 0, 0, .125);
-
     --pokeCard-bg-color: #bfd0f2;
 }
+
 
 /*
     UTILITY CLASSES
 */
+
 .showMe {
     display: block;
 }
@@ -19,9 +21,11 @@
     display: none !important;
 }
 
+
 /*
     HEADER y NAVBAR
 */
+
 .shopHeader {
     background-image: url('../img/pokemon-bg-trans.png');
     background-position-x: 42vw;
@@ -94,15 +98,47 @@
 
 @media (min-width:576px) {}
 
+.menuNav {
+    display: flex;
+    background-color: #fff;
+}
+
+#opcionesBarra {
+    width: 100%;
+}
+
+#cartModal {
+    margin-right: 1rem;
+    display: flex;
+    flex-flow: row-reverse;
+    align-items: center;
+    width: 100px;
+    justify-content: space-around;
+    background-color: #fff;
+    color: #0d6efd;
+    border: none;
+}
+
+#svgCart {
+    margin-left: 1rem;
+}
+
+#cartItems {
+    left: 110%;
+    top: 8%;
+}
+
 .separator {
     margin-top: 0;
     margin-bottom: 1rem;
 }
 
+
 /*
 * Card Product
 *
 */
+
 .productInfo {
     display: flex;
     flex-flow: column-reverse;
@@ -133,16 +169,17 @@
     .productInfo {
         flex-flow: row;
     }
-
     #pokeCardTarget {
         max-width: 350px;
     }
 }
 
+
 /*
 * List of Pokemons
 *
 */
+
 #listOrigin {
     display: flex;
     flex-flow: wrap;
@@ -163,16 +200,19 @@
     padding: .25rem;
     border-radius: var(--border-radius);
 }
+
 .list-group-item-list {
     width: 100%;
     list-style: none;
 }
+
 @media (min-width: 700px) {
     .list-group-item-list {
         max-width: 40vw;
         margin: .5rem auto auto .5rem;
     }
 }
+
 .pokeDataContainerCard {
     display: flex;
     flex-flow: column;
@@ -208,8 +248,6 @@
     justify-content: space-between;
 }
 
-.pokeCardInfoList p {}
-
 .pokeCardInfo>* {
     display: inline;
 }
@@ -232,9 +270,44 @@
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
     background-color: var(--pokeCard-bg-color);
-
 }
 
 .pokeImgContainer img {
     width: 100%;
+}
+
+
+/* Product View en el Modal */
+
+.productContainer {}
+
+.productRow {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: initial;
+}
+
+.productImg {
+    max-width: 40px;
+}
+
+.productName {
+    margin: 0px 0px 0px 1rem;
+}
+
+.productValue {
+    width: 100%;
+    text-align: end;
+}
+
+
+/* Product Added Alert */
+
+#productAddedAlert {
+    display: none;
+    position: fixed;
+    width: 500px;
+    height: 50px;
+    bottom: 0px;
 }
