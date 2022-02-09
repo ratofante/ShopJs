@@ -279,8 +279,6 @@
 
 /* Product View en el Modal */
 
-.productContainer {}
-
 .productRow {
     display: flex;
     align-items: center;
@@ -294,11 +292,28 @@
 
 .productName {
     margin: 0px 0px 0px 1rem;
+    width: 330px;
 }
 
 .productValue {
     width: 100%;
     text-align: end;
+}
+
+.sumasTotal {
+    text-align: end;
+}
+
+.TotalCompra {
+    font-weight: bold;
+}
+
+#total {
+    font-weight: inherit;
+}
+
+#removeButton {
+    width: 110px;
 }
 
 

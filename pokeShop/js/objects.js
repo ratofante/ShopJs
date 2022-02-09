@@ -251,10 +251,26 @@ const ShopCart = {
         sessionStorage.setItem('items', this.items);
         this.showSuccess();
         $("#cartItems").html(this.items.length);
+    },
+    renderCart: function() {
 
     },
-    viewCart: function(array) {
+    totalCompra: function() {
+        //subTotal para comenzar la suma
+        let subTotal = 0;
+        //obtenermos los $$ de cada productValue
+        let valores = document.getElementsByClassName("productValue");
+        Array.from(valores).forEach(function(item) {
+            console.log(item.innerText);
+            //Sacamos el $ del valor, sumamos como Float.
+            subTotal += parseFloat(item.innerText.substring(1))
+        });
+        //fijamos el valor en subTotal
+        $("#subtotal").html(subTotal);
 
+        let comision = $("#comision").text();
+        let total = subTotal + parseFloat(comision);
+        $("#total").text(total);
     },
     showSuccess: function() {
         console.log('trigger');
@@ -270,5 +286,30 @@ const ShopCart = {
             "Product added succesfully"
         );
         $("#productAddedAlert").fadeIn(800).delay(2000).fadeOut(400);
+    },
+    removeItem: function(e) {
+        $(e).removeAttr("onclick");
+        $(e).html("Done");
+        $(".trashProduct").removeClass('hideMe');
+        $(".trashProduct").addClass('showMe');
+        $(e).attr("onclick", "ShopCart.closeRemove(this)");
+    },
+    closeRemove: function(e) {
+        $(e).removeAttr("onclick");
+        $(e).html("Remove Item");
+        $(".trashProduct").removeClass('showMe');
+        $(".trashProduct").addClass('hideMe');
+        $(e).attr("onclick", "ShopCart.removeItem(this)");
+    },
+    removeSelectedItem: function(e) {
+        //sacamos el número de la id.
+        id = e.id.substring(6);
+        $('#row-' + id + '.productRow').remove();
+        console.log(sessionStorage);
+        for (var i = 0; i < this.items.length; i++) {
+            if (this.items[i] === id) {
+                this.items.splice(i, 1);
+            }
+        }
     }
 }
