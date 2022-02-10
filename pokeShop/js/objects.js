@@ -150,7 +150,7 @@ const ProductViewManager = {
                 'class': 'btn btn-secondary',
                 'type': 'button',
                 'value': array[key].id,
-                'onclick': 'addProduct(this.value)'
+                'onclick': 'ShopCart.addProduct(this.value)'
             });
             $(add).html("Add");
             pokeCardButtons.append(add);
@@ -335,12 +335,24 @@ const ShopCart = {
         id = e.id.substring(6);
         $('#row-' + id + '.productRow').remove();
         console.log(sessionStorage);
+        //Recorremos items buscando el producto con su ID y lo borramos.
         for (var i = 0; i < this.items.length; i++) {
             if (this.items[i] === id) {
                 this.items.splice(i, 1);
             }
         }
-        console.log(sessionStorage);
+        //cargamos items nuevamente en sessionStorage
+        sessionStorage.setItem('items', this.items);
+        console.log(this.items);
+        console.log(sessionStorage.getItem('items'));
+        //rendereamos nuevamente la view de los productos del Cart.
+        this.renderCart();
+        //mostramos nuevamente los basureros
+        $(".trashProduct").removeClass('hideMe');
+        $(".trashProduct").addClass('showMe');
+        //calculamos total compra!
+        this.totalCompra();
+
     },
     renderCart: function() {
         //limpiamos el carrito
