@@ -8,7 +8,6 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <link href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkJCQQFRMTP9UTEz/VExM/1RMTP+QkJBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDAw/7SYoP/kvsr/5L7K/+S+yv/kvsr/nISE/zAwMP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDAw//Tg6P+AeHj/kIKC/6yWnP/IqrT/yKq0/9S0wP/YtLz/MDAw/wAAAAAAAAAAAAAAAAAAAAAAAAAAkJCQQGxmZv9cWlT/wLi2//j4+P9sZF7/UFBI/1BQSP9QUEj/XFpU/2xmZv+QkJBAAAAAAAAAAAAAAAAAAAAAADg4Nv9QUEj/MjJa/4h4dP/AuLb/UFBI/zg44P84OOD/ODjI/zg4yP9QUEj/ODg2/wAAAAAAAAAAAAAAAAAAAAA4ODb/ODjI/zg4+P84OPj/ODjI/zg4+P84OPj/ODj4/zg44P84OOD/ODjI/zg4Nv8AAAAAAAAAAAAAAAAAAAAAMjJa/zg4+P84OPj/ODj4/zg4+P84OPj/ODj4/zg4+P84OPj/ODjg/zg44P8yMlr/AAAAAAAAAAAAAAAAAAAAADIyWv84OPj/ODj4/1RU9/84OPj/ODj4/zg4+P84OPj/ODj4/zg44P84OOD/MjJa/wAAAAAAAAAAAAAAAAAAAACQkJBAODjI/4iI9//4+Pj/VFT3/zg4+P84OPj/ODj4/zg4+P84OOD/ODjI/5CQkEAAAAAAAAAAAAAAAAAAAAAAAAAAADAwMP84OMj/iIj3/zg4+P84OPj/ODj4/zg4+P84OPj/ODjg/zAwMP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDAw/zg4yP84OPj/ODj4/zg4+P84OPj/ODjI/zAwMP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACQkJBAMjJa/zIyWv8yMlr/MjJa/5CQkEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAD8PwAA8A8AAOAHAADgBwAAwAMAAMADAADAAwAAwAMAAOAHAADgBwAA8A8AAPw/AAD//wAA//8AAA=="
             rel="icon" type="image/x-icon" />
-
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script src="js/consts.js"></script>
       <script src="js/functions.js"></script>
@@ -53,27 +52,27 @@
                         <li class="nav-item dropdown bg-primary">
                               <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Order</a>
                               <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" role="button">Alpabetically</a></li>
+                                    <li><a id="viewAlph" class="dropdown-item" role="button" onclick="Ordenador.sortAlph(this)">Alphabetically</a></li>
                                     <li>
-                                          <p class="dropdown-item">Price</p>
+                                          <p id="viewPrice" class="dropdown-item">Price</p>
                                     </li>
                                     <li>
                                           <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" role="button">Higher prices</a></li>
-                                    <li><a class="dropdown-item" role="button">Lower prices</a></li>
+                                    <li><a id="priceHigh" class="dropdown-item" role="button" onclick="Ordenador.sortPrice(this)">Higher prices</a></li>
+                                    <li><a id="priceLow" class="dropdown-item" role="button" onclick="Ordenador.sortPrice(this)">Lower prices</a></li>
                               </ul>
                         </li>
                         <li class="nav-item dropdown">
                               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">View</a>
                               <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" role="button" onclick="viewAsList()">List</a></li>
-                                    <li><a class="dropdown-item" role="button" onclick="viewAsCard()">Cards</a></li>
+                                    <li><a id="viewList" class="dropdown-item" role="button" onclick="Ordenador.viewAsList()">List</a></li>
+                                    <li><a id="viewCard" class="dropdown-item bg-info" role="button" onclick="Ordenador.viewAsCard()">Cards</a></li>
                               </ul>
                         </li>
                   </ul>
                   <!-- Button trigger modal -->
-                  <button id="cartModal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                  <button id="cartModal" onclick="ShopCart.renderCart()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
               
               
                     <svg id="svgCart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
@@ -115,55 +114,23 @@
                                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div id="cartView" class="modal-body">
-                                          <div class="productContainer">
-                                                <div class="productRow" id="row-id">
-                                                      <img class="productImg" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png" alt="">
-                                                      <h4 class="productName">Pikachu</h4>
-                                                      <a id="trash-id" type="button" class="trashProduct hideMe" onclick="ShopCart.removeSelectedItem(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                                      </svg></a>
-
-                                                      <span class="productValue">$99.99</span>
-                                                </div>
-                                                <div class="productRow">
-                                                      <img class="productImg" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png" alt="">
-                                                      <h4 class="productName">Pikachu</h4>
-                                                      <a type="button" class="trashProduct hideMe"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                                      </svg></a>
-                                                      <span class="productValue">$99.99</span>
-                                                </div>
-                                                <div class="productRow">
-                                                      <img class="productImg" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png" alt="">
-                                                      <h4 class="productName">Pikachu</h4>
-                                                      <a type="button" class="trashProduct hideMe"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                                      </svg></a>
-                                                      <span class="productValue">$99.99</span>
-                                                </div>
-                                                <div class="productRow">
-                                                      <img class="productImg" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png" alt="">
-                                                      <h4 class="productName">Pikachu</h4>
-                                                      <a type="button" class="trashProduct hideMe"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                                      </svg></a>
-                                                      <span class="productValue">$99.99</span>
-                                                </div>
+                                          <div id="productContainer">
+                                                <!--productos van aquí-->
                                           </div>
                                           <hr>
                                           <div class="totalCost">
                                                 <p class="sumasTotal">
                                                       Subtotal: $
-                                                      <span id="subtotal">99.99</span>
+                                                      <span id="subtotal"></span>
                                                 </p>
                                                 <p class="sumasTotal">
                                                       Platform fee: $
-                                                      <span id="comision">99.99</span>
+                                                      <span id="comision">1.99</span>
                                                 </p>
                                                 <hr>
                                                 <p class="sumasTotal TotalCompra">
                                                       Total: $
-                                                      <span id="total">99.99</span>
+                                                      <span id="total"></span>
                                                 </p>
 
                                           </div>

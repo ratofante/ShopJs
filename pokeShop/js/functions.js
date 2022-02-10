@@ -55,16 +55,6 @@ function getPokemons(url, num) {
             })
     }
 }
-
-function viewAsList() {
-    $("#listOrigin").empty();
-    ProductViewManager.viewAsList(allPokeData);
-}
-
-function viewAsCard() {
-    $("#listOrigin").empty();
-    ProductViewManager.viewAsCard(allPokeData);
-}
 /**
  * 
  * searchPokemon(id)

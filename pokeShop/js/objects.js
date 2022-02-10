@@ -116,6 +116,7 @@ const ElementGenerator = {
 
 const ProductViewManager = {
     viewAsList: function(array) {
+        $("#listOrigin").empty();
         for (let key in array) {
             let listItem = makeElement("li");
             setAttributes(listItem, { 'class': 'list-group-item-list' });
@@ -166,6 +167,7 @@ const ProductViewManager = {
         }
     },
     viewAsCard: function(array) {
+        $("#listOrigin").empty();
         for (var key in array) {
             // Main Container li[div.pokeDataContainer][div.pokeImgContainer]
             let listItem = makeElement("li");
@@ -247,13 +249,39 @@ const ProductViewManager = {
 const ShopCart = {
     items: [],
     addProduct: function(id) {
-        this.items.push(id);
-        sessionStorage.setItem('items', this.items);
+        //obtenemos lo que haya en el storage.
+        let previous = sessionStorage.getItem('items');
+        if (previous === null) {
+            //Si no hay nada, agregamos producto al storage
+            this.items.push(id);
+            sessionStorage.setItem('items', this.items);
+        } else {
+            //si hay algo, lo totamos aquí, insertamos nuevo objeto y
+            //actualizamos el storage.
+            this.items = sessionStorage.getItem('items').split(",");
+            this.items.push(id);
+            sessionStorage.setItem('items', this.items);
+        }
+        //mostramos mensaje éxito al finalizar.
         this.showSuccess();
+        //modificamos el carrito con el n° de items en Storage.
         $("#cartItems").html(this.items.length);
     },
-    renderCart: function() {
-
+    checkCartStorageCount: function() {
+        if (sessionStorage.getItem('items') === null) {
+            // Si Storage vacío, vaciar indicador de items en el carro.
+            $("#cartItems").text('');
+        } else if (sessionStorage.getItem('items') != null) {
+            // extraemos array de la string que devuelve el storage.
+            let items = sessionStorage.getItem('items').split(",");
+            if (this.items.length != items.length) {
+                //chequeamos por las dudas que no haya una diferencia
+                //entre this.items y el storage.
+                this.items = items;
+            }
+            //asignamos cantidad de items al carrito.
+            $("#cartItems").text(items.length);
+        }
     },
     totalCompra: function() {
         //subTotal para comenzar la suma
@@ -266,14 +294,15 @@ const ShopCart = {
             subTotal += parseFloat(item.innerText.substring(1))
         });
         //fijamos el valor en subTotal
-        $("#subtotal").html(subTotal);
-
+        $("#subtotal").html(subTotal.toFixed(2));
+        //sacamos el valor de la comision
         let comision = $("#comision").text();
+        //calculamos total de la compra
         let total = subTotal + parseFloat(comision);
-        $("#total").text(total);
+        //asignamos total respectivamente. 
+        $("#total").text(total.toFixed(2));
     },
     showSuccess: function() {
-        console.log('trigger');
         $("#productAddedAlert").remove();
         ElementGenerator.generate(
             "div", {
@@ -311,5 +340,169 @@ const ShopCart = {
                 this.items.splice(i, 1);
             }
         }
+        console.log(sessionStorage);
+    },
+    renderCart: function() {
+        //limpiamos el carrito
+        if (sessionStorage.getItem('items') === null) {
+            ElementGenerator.generate(
+                "h6", {
+                    'id': 'noItemsInCart',
+                    'class': 'text-center'
+                },
+                '#productContainer',
+                null,
+                "Your cart is empty. Search one or more products that you like"
+            );
+            return;
+        }
+        $("#productContainer").empty();
+        let items = sessionStorage.getItem('items').split(",");
+        console.log(items);
+        console.log(allPokeData[items[0]]);
+        items.forEach(function(item) {
+            ElementGenerator.generate(
+                "div", {
+                    'id': 'row-' + allPokeData[item].id,
+                    'class': 'productRow',
+                },
+                '#productContainer'
+            );
+            ElementGenerator.generate(
+                "img", {
+                    'class': 'productImg',
+                    'src': allPokeData[item].frontDefault,
+                    'alt': allPokeData[item].name
+                },
+                '#row-' + allPokeData[item].id
+            );
+            ElementGenerator.generate(
+                "h4", {
+                    'class': 'productName'
+                },
+                '#row-' + allPokeData[item].id,
+                null,
+                allPokeData[item].name
+            );
+            ElementGenerator.generate(
+                "a", {
+                    'id': 'trash-' + allPokeData[item].id,
+                    'type': 'button',
+                    'class': 'trashProduct hideMe',
+                    'onclick': 'ShopCart.removeSelectedItem(this)'
+                },
+                '#row-' + allPokeData[item].id
+            );
+            //insertamos en <a></a> el SVG para el tacho de basura (en consts.js)
+            $('#trash-' + allPokeData[item].id).append(svgTachoBasura);
+            ElementGenerator.generate(
+                "span", {
+                    'class': 'productValue'
+                },
+                '#row-' + allPokeData[item].id,
+                null,
+                "$" + allPokeData[item].price
+            );
+        });
+        //Sacamos total
+        this.totalCompra();
     }
+}
+const Ordenador = {
+    estado: 'card',
+    sort: '',
+    viewAsList: function() {
+        if (this.estado.includes('list') === false) {
+            $("#listOrigin").empty();
+            ProductViewManager.viewAsList(allPokeData);
+            this.toogleCardListView('#viewList', '#viewCard');
+            this.estado = 'list';
+        }
+    },
+    viewAsCard: function() {
+        if (this.estado.includes('card') === false) {
+            $("#listOrigin").empty();
+            ProductViewManager.viewAsCard(allPokeData);
+            this.toogleCardListView('#viewCard', '#viewList');
+            this.estado = 'card';
+        }
+    },
+    toogleCardListView: function(actual, past) {
+        $(actual).addClass('bg-info');
+        $(past).removeClass('bg-info');
+        $(actual).attr('style', 'pointer-events:none');
+        $(past).removeAttr('style');
+    },
+    sortAlph: function(e) {
+        if (this.sort.includes('alph') === false) {
+            //reordenamos allPokeData alfabéticamente.
+            allPokeData.sort((a, b) => (a.name > b.name) ? 1 : -1);
+            //redereamos productos de acuerdo a view 'card' o 'list'
+            this.estado === 'card' ? ProductViewManager.viewAsCard(allPokeData) : ProductViewManager.viewAsList(allPokeData);
+            //seteamos botón 'alphabetically' con bg-info y quitamos pointer.
+            $(e).addClass('bg-info');
+            $(e).attr('style', 'pointer-events:none');
+            //chequeamos si ya se activó para ver precios
+            if (this.sort.includes('pr-')) {
+                //desmarcamos botón precio
+                $("#viewPrice").removeClass('bg-info');
+                if (this.sort.includes('high')) {
+                    //desmarcamos 'high' de estar marcado como opción
+                    $("#priceHigh").removeClass('bg-info');
+                    $("#priceHigh").removeAttr('style');
+                } else {
+                    //desmarcamos 'low' caso de estar marcado. 
+                    $("#priceLow").removeClass('bg-info');
+                    $("#priceLow").removeAttr('style');
+                }
+            }
+            //seteamos sort para alfabético. 
+            this.sort = 'alph';
+        }
+    },
+    sortPrice: function(e) {
+        //Si está seteado 'alph' lo desmarcamos (fondo celeste).
+        if (this.sort.includes('alph') === true) {
+            $("#viewAlph").removeClass('bg-info');
+            $("#viewAlph").removeAttr('style');
+        }
+        //Para botón ver precios mayor a menos (high)
+        if (e.id === 'priceHigh') {
+            if (this.sort.includes('high') === false) {
+                //Si estaba marcado 'low', desmarcamos.
+                if (this.sort.includes('low') === true) {
+                    $("#priceLow").removeAttr('style');
+                    $("#priceLow").removeClass('bg-info');
+                }
+                //reordenamos allPokeData y rendereamos de acuerdo a si la view
+                //es 'card' o 'list'.
+                allPokeData.sort((a, b) => (a.price < b.price) ? 1 : -1);
+                this.estado.includes('card') === true ? ProductViewManager.viewAsCard(allPokeData) : ProductViewManager.viewAsList(allPokeData);
+                //Por último, seteamos sort con el valor correspondiente.
+                this.sort = 'pr-high';
+            }
+        } else {
+            //Para botón ver precios menor a mayor (low)
+            if (this.sort.includes('low') === false) {
+                //Si estaba marcado 'high' lo desmarcamos.
+                if (this.sort.includes('high') === true) {
+                    $("#priceHigh").removeAttr('style');
+                    $("#priceHigh").removeClass('bg-info');
+                }
+                //reordenamos allPokeData y redereamos de acuerdo a si la view
+                //es 'card' o 'list'
+                allPokeData.sort((a, b) => (a.price > b.price) ? 1 : -1);
+                this.estado.includes('card') === true ? ProductViewManager.viewAsCard(allPokeData) : ProductViewManager.viewAsList(allPokeData);
+                //seteamos sort con el valor correspondiente.
+                this.sort = 'pr-low';
+            }
+        }
+        //el Elemento que dispara la función pasa a estar marcado. 
+        $(e).attr('style', 'pointer-events:none');
+        $(e).addClass('bg-info');
+        //marcamos también la sección 'Price'
+        $("#viewPrice").addClass('bg-info');
+    }
+
+
 }

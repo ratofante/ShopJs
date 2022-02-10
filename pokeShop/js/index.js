@@ -20,12 +20,7 @@ $(document).ready(function() {
             FindPokemon.createSearchInput(pokemons, "#candidatos");
         }
     });
-    if ($("#cartItems").html() == "") {
-        console.log('vacio')
-    } else { console.log('otra cosa') }
 
-    $(".seeProduct").hover(function() {
-
-    })
-
+    //Chequeamos que coincida Storage con items en el carrito
+    ShopCart.checkCartStorageCount();
 });
