@@ -12,22 +12,30 @@ const FindPokemon = {
     pokeChosen: [],
     pokeFinal: [],
     getHint: function(text, target) {
+        //seteamos variables
+        this.pokeFinal = [];
         let hint = "";
         text = text.toLowerCase();
         for (var key in pokeIndex) {
             let pokemon = pokeIndex[key];
+            //si hay coincidencias, agregar el nombre a hint con un espacio " "
             if (pokemon.includes(text) && text != "") {
                 hint += pokeIndex[key] + " ";
                 this.pokeArray.push(pokeIndex[key] + "/" + key);
             }
+            //mostrar la div con las hints y pasarlas como html.
             $(target).removeClass("hidden");
             $(target).html(hint + " ");
         }
+        //si el array tiene entre 4 y 1 candidatos
         if (this.pokeArray.length < 5 && this.pokeArray.length != 0) {
+            //Oculta las Hints
             $(target).addClass("hidden");
             for (i = 0; i < this.pokeArray.length; i++) {
+                console.log(this.pokeArray[i])
                 this.pokeChosen.push(this.pokeArray[i].split("/"));
             }
+            console.log(this.pokeChosen);
             this.pokeFinal = [];
             this.pokeFinal = this.pokeChosen;
         }
@@ -39,10 +47,7 @@ const FindPokemon = {
     },
     createSearchInput: function(pokemons, target) {
         for (var key in pokemons) {
-
             let previous = document.getElementById("choice");
-            console.log(previous);
-
             if (previous != null) {
                 previous.remove()
             }
@@ -53,7 +58,7 @@ const FindPokemon = {
                 "p", { 'class': 'text-white mb-0 align-self-center mx-3' },
                 "#choice-" + key,
                 null,
-                '#' + pokemons[key][1] + " - " + pokemons[key][0]);
+                '#' + pokemons[key][1] + " - " + capitalize(pokemons[key][0]));
             // SEARCH BUTTON   function-> searchPokemon(id)
             ElementGenerator.generate(
                 "button", {

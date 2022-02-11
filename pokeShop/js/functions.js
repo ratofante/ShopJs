@@ -94,7 +94,7 @@ function searchPokemon(id) {
                 "p", { 'id': 'pokeDescription', 'class': 'card-text' },
                 ".card-body"
             );
-            $("#pokeTitle").html("#" + id + " - " + resp.name);
+            $("#pokeTitle").html("#" + id + " - " + capitalize(resp.name));
             $("#pokeImg").attr("src", resp.sprites.other["official-artwork"].front_default);
 
             // SEARCH SPECIES

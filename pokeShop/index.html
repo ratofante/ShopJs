@@ -73,39 +73,29 @@
                   </ul>
                   <!-- Button trigger modal -->
                   <button id="cartModal" onclick="ShopCart.renderCart()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-              
-              
-                    <svg id="svgCart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
-                <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
-              </svg>
-              Cart
-              <span id="cartItems" class="translate-middle badge rounded-pill bg-danger"></span>
-            </button>
+                        <svg id="svgCart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
+                              <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                        </svg>
+                        Cart
+                        <span id="cartItems" class="translate-middle badge rounded-pill bg-danger"></span>
+                  </button>
             </div>
-            <!-- Cierre navMenuContainer-->
       </div>
+      <!-- Cierre navMenuContainer-->
       <hr class="separator">
+      <!-- MAIN SECTION-->
       <main>
             <div class="container-fluid">
                   <div class="productInfo hideMe">
-                        <div class="cardInfo">
+                        <!-- POKECARD -->
+                        <div id="cardInfo" class="p-1shadow rounded">
                               <h3>Poke Info</h3>
                         </div>
                         <div id="pokeCardTarget" class="p-1 shadow rounded">
-                              <!-- POKECARD -->
-                              <!--
-            <div class="card pokeCard m-auto">
-                <div class="imgCardContainer">
-                    <img id="pokeImg" class="card-img-top" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" alt="pokemon">
-                </div>
-                <div class="card-body">
-                    <h4 id="pokeTitle" class="card-title">#4 - charmander</h4>
-                    <p id="pokeDescription" class="card-text">Legendary bird POKéMON. It is said to migratefrom the south along with the spring.</p>
-                </div>
-            </div>
-            -->
+                              <!-- IMG, NAME & FLAVOR TEXT -->
                         </div>
                   </div>
+                  <!-- MODAL SHOPCART -->
                   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-scrollable">
                               <div class="modal-content">
@@ -132,7 +122,6 @@
                                                       Total: $
                                                       <span id="total"></span>
                                                 </p>
-
                                           </div>
                                     </div>
                                     <div class="modal-footer">
@@ -143,32 +132,12 @@
                               </div>
                         </div>
                   </div>
-
                   <!-- PRODUCT LIST -->
                   <ul id="listOrigin" class="list-group mt-3">
-                        <!-- Items -->
-                        <!--li class="list-group-item">
-                <div class="pokeDataContainer">
-                  <div class="pokeCardInfo">
-                    <h4 class="pokeCardName">Bulbasaur</h4>
-                    <p>$5.99</p>
-                  </div>
-                  <div class="pokeCardButtons">
-                    <button type="button" class="btn btn-secondary">Add</button>
-                    <button type="button" class="btn btn-primary">See</button>
-                  </div>
-                </div>
-                <div class="pokeImgContainer">
-                  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png" alt="">
-                </div>
-              </li-->
+                        <!-- Items as Card or List -->
                   </ul>
-
-
             </div>
       </main>
-
-
       <!-- Bootstrap JavaScript Libraries -->
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
