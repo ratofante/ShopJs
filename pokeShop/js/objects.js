@@ -86,7 +86,6 @@ const FindPokemon = {
                 null,
                 "search!");
         }
-        $('.searchButton').first().focus();
     },
     clearCandidatos: () => {
         $('#candidatos').empty();

@@ -42,13 +42,6 @@ function getPokemons(url, num) {
                     'price': (Math.random() * (9.99 - 1.99) + 1.99).toFixed(2),
                 };
                 allPokeData[resp.id] = pokemon;
-
-                /*pokeMap.set(resp.id, {
-                    'id':resp.id,
-                    'name':resp.name,
-                    'frontDefault':resp.sprites.front_default,
-                    'bigImg' : resp.sprites.other["official-artwork"].front_default,
-                });*/
             })
             .catch(function(error) {
                 console.log(error);
@@ -68,7 +61,7 @@ function searchPokemon(id) {
             if ($(".pokeCard").length > 0) {
                 $(".pokeCard").remove();
             }
-            //Armo Card:
+            //Armo Card con IMG, id-nombre y flavortext:
             ElementGenerator.generate(
                 "div", { "class": "card pokeCard m-auto" },
                 "#pokeCardTarget"
@@ -77,35 +70,62 @@ function searchPokemon(id) {
                 "div", { 'class': 'imgCardContainer' },
                 ".pokeCard"
             );
+            //IMG
             ElementGenerator.generate(
-                "img", { 'id': 'pokeImg', 'class': 'card-img-top', 'alt': 'pokemon' },
+                "img", {
+                    'id': 'pokeImg',
+                    'class': 'card-img-top',
+                    'alt': 'pokemon',
+                    'src': resp.sprites.other["official-artwork"].front_default
+                },
                 ".imgCardContainer"
             );
             ElementGenerator.generate(
                 "div", { 'class': 'card-body' },
                 ".pokeCard"
             );
+            // #ID - NAME
             ElementGenerator.generate(
                 "h4", { 'id': 'pokeTitle', 'class': 'card-title' },
                 ".card-body",
                 null,
+                "#" + id + " - " + capitalize(resp.name)
             );
             ElementGenerator.generate(
                 "p", { 'id': 'pokeDescription', 'class': 'card-text' },
                 ".card-body"
             );
-            $("#pokeTitle").html("#" + id + " - " + capitalize(resp.name));
-            $("#pokeImg").attr("src", resp.sprites.other["official-artwork"].front_default);
+            //Type Div
+            ElementGenerator.generate(
+                "div", { 'class': 'infoBlock typeBlock' },
+                '#cardInfo'
+            );
+            //Type
+            let types = '';
+            for (var key in resp.types) {
+                types += capitalize(resp.types[key].type.name) + ' - ';
+            }
+            types = types.substring(0, types.length - 2);
+            ElementGenerator.generate(
+                'h5', { 'class': 'infoTitle' },
+                '.typeBlock',
+                null,
+                'Type'
+            );
+            ElementGenerator.generate(
+                'span', { 'class': 'pokeInfoText' },
+                '.typeBlock',
+                null,
+                types
+            );
+
 
             // SEARCH SPECIES
-            searchSpecies(id);
+            // flavor_text, evoluciones, habitat y shape.
+            searchSpeciesData(id);
 
             $(".productInfo").removeClass("hideMe");
             $(".productInfo").addClass("showMe");
-
-            clearTargetChilds("#candidatos");
-            clearTargetChilds("#pokeHint");
-            clearInputContent("#pokeSearch");
 
             $.scrollTo('html', {
                 duration: 500,
@@ -122,11 +142,97 @@ function searchPokemon(id) {
  * 
  * 
  */
-function searchSpecies(id) {
+function searchSpeciesData(id) {
     fetch(urlPokeSpecies + id)
         .then((resp) => resp.json())
         .then(function(resp) {
-            $("#pokeDescription").html(resp.flavor_text_entries[0].flavor_text);
+            //flavor_text, usamos la versión sapphire y lenguaje english
+            let foo = resp.flavor_text_entries
+            for (let key in foo) {
+                if (foo[key].version.name === 'sapphire' && foo[key].language.name === 'en') {
+                    $('#pokeDescription').text(foo[key].flavor_text);
+                }
+            }
+            // habitat div
+            ElementGenerator.generate(
+                'div', { 'class': 'infoBlock habitatBlock' },
+                '#cardInfo'
+            )
+            ElementGenerator.generate(
+                'h5', { 'class': 'infoTitle' },
+                '.habitatBlock', null, 'Habitat'
+            );
+            // habitat 
+            ElementGenerator.generate(
+                'span', { 'class': 'pokeInfoText' },
+                '.habitatBlock', null, capitalize(resp.habitat.name)
+            );
+            //shape Div
+            ElementGenerator.generate(
+                'div', { 'class': 'infoBlock shapeBlock' },
+                '#cardInfo'
+            );
+            ElementGenerator.generate(
+                'h5', { 'class': 'infoTitle' },
+                '.shapeBlock', null, 'Shape'
+            );
+            // shape
+            ElementGenerator.generate(
+                'span', { 'class': 'pokeInfoText' },
+                '.shapeBlock', null, capitalize(resp.shape.name)
+            );
+            // evo chain
+            fetch(resp.evolution_chain.url)
+                .then((resp) => resp.json())
+                .then((resp) => {
+                    ElementGenerator.generate(
+                        'div', { 'class': 'infoBlock evoBlock' }, '#cardInfo'
+                    );
+                    ElementGenerator.generate(
+                        'h5', { 'class': 'infoTitle' },
+                        '.evoBlock', null, 'Evolution Chain'
+                    );
+                    if (resp.chain.evolves_to.length > 1) {
+                        // casos raros. EEVEE.
+                        console.log(resp.chain.evolves_to[0].species.name)
+                        console.log(resp.chain.evolves_to[1].species.name)
+                        console.log(resp.chain.evolves_to[2].species.name)
+                        console.log(resp.chain.species.name);
+                    } else if (resp.chain.evolves_to.length === 0) {
+                        ElementGenerator.generate(
+                            'div', { 'class': 'evoDiv' }, '.evoBlock', null,
+                            `<span>This pokémon does not have an evolution</span>`
+                        )
+                    } else if (resp.chain.evolves_to[0].evolves_to.length === 1) {
+                        //tiene 3 evos
+                        let evos = {};
+                        evos[resp.chain.species.url[resp.chain.species.url.length - 2]] = resp.chain.species.name;
+                        evos[resp.chain.evolves_to[0].species.url[resp.chain.evolves_to[0].species.url.length - 2]] = resp.chain.evolves_to[0].species.name;
+                        evos[resp.chain.evolves_to[0].evolves_to[0].species.url[resp.chain.evolves_to[0].evolves_to[0].species.url.length - 2]] = resp.chain.evolves_to[0].evolves_to[0].species.name;
+                        console.log(evos);
+                        for (var i in evos) {
+                            console.log(i);
+                            fetch(urlPokeApi + i).then((resp) => resp.json())
+                                .then((resp) => {
+                                    let img = resp.sprites.front_default;
+                                    ElementGenerator.generate(
+                                        'div', { 'class': 'evoDiv' }, '.evoBlock', null,
+                                        `<img class='evoChainImg' src="${img}" alt="${evos[i]}">
+                                        <span class="evoName">${evos[i]}</span>`
+                                    );
+                                })
+                                .catch((error) => console.log(error));
+                        }
+                    } else {
+                        //tiene 2 evos
+                        console.log('tiene dos evos');
+                        console.log(resp.chain.evolves_to[0].species.name)
+                        console.log(resp.chain.species.name);
+                    }
+                })
+                .catch((error) =>
+                    console.log(error)
+                );
         })
         .catch(function(error) {
             console.log(error)
