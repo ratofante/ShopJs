@@ -92,6 +92,21 @@
     margin-right: 1rem;
 }
 
+#pokeHint,
+#candidatos {
+    position: absolute;
+    width: 290px;
+    z-index: 100;
+    background-color: white;
+    padding: 1rem;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#pokeHint {
+    padding: .5rem;
+}
+
 .searchInput {
     max-width: 400px;
 }
@@ -141,6 +156,7 @@
 
 .productInfo {
     display: flex;
+    padding: 1rem;
     flex-flow: column-reverse;
     border-right: 1px solid #0006;
     border-top: 1px solid #0006;

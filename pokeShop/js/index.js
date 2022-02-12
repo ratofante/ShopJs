@@ -17,6 +17,7 @@ $(document).ready(function() {
         $("#candidatos").empty();
         var text = $(this).val();
         var pokemons = FindPokemon.getHint(text, "#pokeHint");
+        console.log(pokemons);
         if (Array.isArray(pokemons)) {
             FindPokemon.createSearchInput(pokemons, "#candidatos");
         }

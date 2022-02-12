@@ -13,7 +13,8 @@ const FindPokemon = {
     pokeFinal: [],
     getHint: function(text, target) {
         //seteamos variables
-        this.pokeFinal = [];
+        this.pokeChosen = [];
+        this.pokeArray = [];
         let hint = "";
         text = text.toLowerCase();
         for (var key in pokeIndex) {
@@ -23,34 +24,49 @@ const FindPokemon = {
                 hint += pokeIndex[key] + " ";
                 this.pokeArray.push(pokeIndex[key] + "/" + key);
             }
-            //mostrar la div con las hints y pasarlas como html.
-            $(target).removeClass("hidden");
-            $(target).html(hint + " ");
+            //Pasamos HINT como text al target ('#pokeHint')
+            $(target).text(hint + " ");
         }
         //si el array tiene entre 4 y 1 candidatos
         if (this.pokeArray.length < 5 && this.pokeArray.length != 0) {
-            //Oculta las Hints
-            $(target).addClass("hidden");
+            //Armamos el array con los 1 a 4 candidatos.
             for (i = 0; i < this.pokeArray.length; i++) {
-                console.log(this.pokeArray[i])
                 this.pokeChosen.push(this.pokeArray[i].split("/"));
             }
-            console.log(this.pokeChosen);
+            /*console.log(this.pokeChosen);
             this.pokeFinal = [];
             this.pokeFinal = this.pokeChosen;
+            console.log(this.pokeFinal);
+            console.log(this.pokeChosen);*/
         }
-        this.pokeArray = [];
-        this.pokeChosen = [];
-        if (this.pokeFinal.length > 0) {
-            return this.pokeFinal;
+        console.log(this.pokeChosen);
+        // hay resultados > 0 y < 5
+        if (this.pokeChosen.length > 0) {
+            if ($(target).hasClass('showMe')) { $(target).removeClass('showMe') }
+            $(target).addClass('hideMe');
+            return this.pokeChosen;
+        } else if (hint === "" & $('#pokeHint').hasClass('showMe')) {
+            $(target).removeClass('showMe');
+            $(target).addClass('hideMe');
+            if ($('#candidatos').hasClass('showMe')) {
+                $('#candidatos').removeClass('showMe')
+                $('#candidatos').addClass('hideMe');
+            }
+        } else if (hint != "") {
+            if ($(target).hasClass('hideMe')) { $(target).removeClass('hideMe') }
+            $(target).addClass('showMe')
+            if ($('#candidatos').hasClass('showMe')) {
+                console.log('si');
+                $('#candidatos').removeClass('showMe')
+                $('#candidatos').addClass('hideMe');
+            }
         }
     },
     createSearchInput: function(pokemons, target) {
+        $("#candidatos").removeClass("hideMe");
+        $("#candidatos").addClass('showMe');
         for (var key in pokemons) {
-            let previous = document.getElementById("choice");
-            if (previous != null) {
-                previous.remove()
-            }
+            console.log('trigger');
             ElementGenerator.generate(
                 "div", { 'id': 'choice-' + key, 'class': 'searchInput bg-secondary my-1 d-flex align-content-center justify-content-between rounded' },
                 target);
@@ -62,14 +78,20 @@ const FindPokemon = {
             // SEARCH BUTTON   function-> searchPokemon(id)
             ElementGenerator.generate(
                 "button", {
-                    'class': 'btn btn-primary',
+                    'class': 'btn btn-primary searchButton',
                     'value': pokemons[key][1],
-                    'onclick': 'searchPokemon(this.value)'
+                    'onclick': 'searchPokemon(this.value); FindPokemon.clearCandidatos()'
                 },
                 "#choice-" + key,
                 null,
                 "search!");
         }
+        $('.searchButton').first().focus();
+    },
+    clearCandidatos: () => {
+        $('#candidatos').empty();
+        $('#candidatos').removeClass('showMe');
+        $('#candidatos').addClass('hideMe');
     }
 }
 
