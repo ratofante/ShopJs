@@ -2,6 +2,7 @@ $(document).ready(function() {
 
     //Sacamos toda la data de pokeApi.
     getPokemons(urlPokeApi, 151);
+
     const checkPokeDataRdy = setInterval(function() { checkRdy(allPokeData), 500 });
 
     //establecemos que el intervalo está Rdy cuando allPokeData alcanza length 151.
@@ -9,9 +10,12 @@ $(document).ready(function() {
         if (Object.keys(obj).length === 151) {
             clearInterval(checkPokeDataRdy);
             ProductViewManager.viewAsCard(allPokeData);
+            //Chequeamos que coincida Storage con items en el carrito
+            if (ShopCart.checkCartStorageCount()) {
+                ShopCart.checkAlreadySelectedItems();
+            }
         }
     }
-
     //Barra 'Buscador', event para cambios en el input.
     $("#pokeSearch").on("input", function() {
         $("#candidatos").empty();
@@ -22,7 +26,4 @@ $(document).ready(function() {
             FindPokemon.createSearchInput(pokemons, "#candidatos");
         }
     });
-
-    //Chequeamos que coincida Storage con items en el carrito
-    ShopCart.checkCartStorageCount();
 });

@@ -58,6 +58,9 @@ function searchPokemon(id) {
     fetch(urlPokeApi + id)
         .then((resp) => resp.json())
         .then(function(resp) {
+            $('#cardInfo').empty();
+            $('#pokeCardTarget').empty();
+
             if ($(".pokeCard").length > 0) {
                 $(".pokeCard").remove();
             }
@@ -110,7 +113,7 @@ function searchPokemon(id) {
                 'h5', { 'class': 'infoTitle' },
                 '.typeBlock',
                 null,
-                'Type'
+                'Type :'
             );
             ElementGenerator.generate(
                 'span', { 'class': 'pokeInfoText' },
@@ -118,14 +121,13 @@ function searchPokemon(id) {
                 null,
                 types
             );
-
-
             // SEARCH SPECIES
             // flavor_text, evoluciones, habitat y shape.
             searchSpeciesData(id);
 
             $(".productInfo").removeClass("hideMe");
             $(".productInfo").addClass("showMe");
+
 
             $.scrollTo('html', {
                 duration: 500,
@@ -160,7 +162,7 @@ function searchSpeciesData(id) {
             )
             ElementGenerator.generate(
                 'h5', { 'class': 'infoTitle' },
-                '.habitatBlock', null, 'Habitat'
+                '.habitatBlock', null, 'Habitat :'
             );
             // habitat 
             ElementGenerator.generate(
@@ -174,7 +176,7 @@ function searchSpeciesData(id) {
             );
             ElementGenerator.generate(
                 'h5', { 'class': 'infoTitle' },
-                '.shapeBlock', null, 'Shape'
+                '.shapeBlock', null, 'Shape :'
             );
             // shape
             ElementGenerator.generate(
@@ -185,50 +187,68 @@ function searchSpeciesData(id) {
             fetch(resp.evolution_chain.url)
                 .then((resp) => resp.json())
                 .then((resp) => {
+                    //necesito extraer la ID a partir de la url de la specie.
+                    function giveId(url) {
+                        let str = url;
+                        str = str.substring(resp.chain.species.url.indexOf("species/"));
+                        str = str.substring('species/'.length);
+                        evoId = str.substring(0, str.length - 1);
+                        return evoId;
+                    }
+                    ElementGenerator.generate(
+                        'h5', { 'class': 'infoTitle evoChainTitle' },
+                        '#cardInfo', null, 'Evolution Chain :'
+                    );
                     ElementGenerator.generate(
                         'div', { 'class': 'infoBlock evoBlock' }, '#cardInfo'
                     );
-                    ElementGenerator.generate(
-                        'h5', { 'class': 'infoTitle' },
-                        '.evoBlock', null, 'Evolution Chain'
-                    );
                     if (resp.chain.evolves_to.length > 1) {
                         // casos raros. EEVEE.
-                        console.log(resp.chain.evolves_to[0].species.name)
-                        console.log(resp.chain.evolves_to[1].species.name)
-                        console.log(resp.chain.evolves_to[2].species.name)
-                        console.log(resp.chain.species.name);
+                        let evos = {};
+                        evos[giveId(resp.chain.species.url)] = resp.chain.species.name;
+                        evos[giveId(resp.chain.evolves_to[0].species.url)] = resp.chain.evolves_to[0].species.name;
+                        evos[giveId(resp.chain.evolves_to[1].species.url)] = resp.chain.evolves_to[2].species.name;
+                        evos[giveId(resp.chain.evolves_to[2].species.url)] = resp.chain.evolves_to[2].species.name;
+                        fetchEvos(evos);
                     } else if (resp.chain.evolves_to.length === 0) {
                         ElementGenerator.generate(
+                            //Tiene solo una evo
                             'div', { 'class': 'evoDiv' }, '.evoBlock', null,
                             `<span>This pokémon does not have an evolution</span>`
                         )
                     } else if (resp.chain.evolves_to[0].evolves_to.length === 1) {
                         //tiene 3 evos
                         let evos = {};
-                        evos[resp.chain.species.url[resp.chain.species.url.length - 2]] = resp.chain.species.name;
-                        evos[resp.chain.evolves_to[0].species.url[resp.chain.evolves_to[0].species.url.length - 2]] = resp.chain.evolves_to[0].species.name;
-                        evos[resp.chain.evolves_to[0].evolves_to[0].species.url[resp.chain.evolves_to[0].evolves_to[0].species.url.length - 2]] = resp.chain.evolves_to[0].evolves_to[0].species.name;
-                        console.log(evos);
-                        for (var i in evos) {
-                            console.log(i);
-                            fetch(urlPokeApi + i).then((resp) => resp.json())
-                                .then((resp) => {
-                                    let img = resp.sprites.front_default;
-                                    ElementGenerator.generate(
-                                        'div', { 'class': 'evoDiv' }, '.evoBlock', null,
-                                        `<img class='evoChainImg' src="${img}" alt="${evos[i]}">
-                                        <span class="evoName">${evos[i]}</span>`
-                                    );
-                                })
-                                .catch((error) => console.log(error));
-                        }
+                        evos[giveId(resp.chain.species.url)] = resp.chain.species.name;
+                        evos[giveId(resp.chain.evolves_to[0].species.url)] = resp.chain.evolves_to[0].species.name;
+                        evos[giveId(resp.chain.evolves_to[0].evolves_to[0].species.url)] = resp.chain.evolves_to[0].evolves_to[0].species.name;
+                        fetchEvos(evos);
                     } else {
                         //tiene 2 evos
-                        console.log('tiene dos evos');
-                        console.log(resp.chain.evolves_to[0].species.name)
-                        console.log(resp.chain.species.name);
+                        let evos = {};
+                        evos[giveId(resp.chain.species.url)] = resp.chain.species.name;
+                        evos[giveId(resp.chain.evolves_to[0].species.url)] = resp.chain.evolves_to[0].species.name;
+                        fetchEvos(evos);
                     }
+                    //Por último, generamos los botones.
+                    //Generamos botones
+                    ElementGenerator.generate(
+                        'div', { class: 'pokeCardButtons buyDisplayProduct' }, '#cardInfo',
+                        null,
+                    );
+                    ElementGenerator.generate(
+                        'button', {
+                            'id': 'presentProductButton',
+                            'class': 'btn btn-secondary addButton',
+                            'type': 'button',
+                            'value': id,
+                            'onclick': 'ShopCart.addProduct(this, this.value)'
+                        },
+                        '.buyDisplayProduct',
+                        null,
+                        'Buy Product'
+                    );
+                    ShopCart.checkAlreadySelectedItems();
                 })
                 .catch((error) =>
                     console.log(error)
@@ -237,6 +257,22 @@ function searchSpeciesData(id) {
         .catch(function(error) {
             console.log(error)
         });
+}
+// Habiendo armado el array con {id : name}, armamos html.
+function fetchEvos(evos) {
+    for (var i in evos) {
+        let id = i;
+        fetch(urlPokeApi + id).then((resp) => resp.json())
+            .then((resp) => {
+                let img = resp.sprites.front_default;
+                ElementGenerator.generate(
+                    'div', { 'class': 'evoDiv' }, '.evoBlock', null,
+                    `<img class='evoChainImg' src="${img}" alt="${capitalize(evos[id])}">
+                    <span class="evoName">${capitalize(evos[id])}</span>`
+                );
+            })
+            .catch((error) => console.log(error));
+    }
 }
 /**
  * 

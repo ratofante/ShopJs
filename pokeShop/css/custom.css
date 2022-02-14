@@ -148,6 +148,19 @@
     margin-bottom: 1rem;
 }
 
+.modal-footer {
+    display: block;
+}
+
+.cartButtons {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.cartButtons * {
+    margin-left: .5rem;
+}
+
 
 /*
 * Card Product
@@ -175,6 +188,43 @@
 #cardInfo {
     width: 95%;
     margin: 1rem auto;
+}
+
+.infoBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: .5rem;
+}
+
+.infoTitle {
+    font-weight: bold;
+    min-width: 80px;
+}
+
+.evoChainTitle {
+    margin-top: 1rem;
+}
+
+.pokeInfoText {
+    width: 80%;
+    text-align: end;
+}
+
+.evoBlock {
+    display: flex;
+}
+
+.evoDiv {
+    flex: 1 0 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buyDisplayProduct {
+    margin-top: 2rem;
+    justify-content: flex-end !important;
 }
 
 @media (min-width:760px) {

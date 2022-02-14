@@ -108,6 +108,8 @@
                                                 <!--productos van aquí-->
                                           </div>
                                           <hr>
+                                    </div>
+                                    <div class="modal-footer">
                                           <div class="totalCost">
                                                 <p class="sumasTotal">
                                                       Subtotal: $
@@ -123,11 +125,12 @@
                                                       <span id="total"></span>
                                                 </p>
                                           </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                          <button id="removeButton" type="button" class="btn btn-danger" onclick="ShopCart.removeItem(this)">Remove Item</button>
-                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                          <button type="button" class="btn btn-primary">Buy</button>
+                                          <div class="cartButtons">
+                                                <button type="button" class="btn btn-primary">Buy</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button id="removeButton" type="button" class="btn btn-danger" onclick="ShopCart.removeItem(this)">Remove Item</button>
+                                          </div>
+
                                     </div>
                               </div>
                         </div>

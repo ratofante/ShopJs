@@ -173,10 +173,10 @@ const ProductViewManager = {
 
             let add = makeElement("button");
             setAttributes(add, {
-                'class': 'btn btn-secondary',
+                'class': 'btn btn-secondary addButton',
                 'type': 'button',
                 'value': array[key].id,
-                'onclick': 'ShopCart.addProduct(this.value)'
+                'onclick': 'ShopCart.addProduct(this, this.value)'
             });
             $(add).html("Add");
             pokeCardButtons.append(add);
@@ -191,6 +191,7 @@ const ProductViewManager = {
             $(see).html("See");
             pokeCardButtons.append(see);
         }
+        ShopCart.checkAlreadySelectedItems();
     },
     viewAsCard: function(array) {
         $("#listOrigin").empty();
@@ -242,10 +243,10 @@ const ProductViewManager = {
             //addProduct() Button
             let addButton = makeElement("button");
             setAttributes(addButton, {
-                "class": "btn btn-secondary",
+                "class": "btn btn-secondary addButton",
                 "type": "button",
                 "value": array[key].id,
-                'onclick': 'ShopCart.addProduct(this.value)'
+                'onclick': 'ShopCart.addProduct(this, this.value)'
             });
             $(addButton).html("Add");
             $(pokeCardButtons).append(addButton);
@@ -274,39 +275,79 @@ const ProductViewManager = {
 }
 const ShopCart = {
     items: [],
-    addProduct: function(id) {
+    addProduct: function(e, id) {
         //obtenemos lo que haya en el storage.
         let previous = sessionStorage.getItem('items');
-        if (previous === null) {
-            //Si no hay nada, agregamos producto al storage
-            this.items.push(id);
-            sessionStorage.setItem('items', this.items);
-        } else {
-            //si hay algo, lo totamos aquí, insertamos nuevo objeto y
-            //actualizamos el storage.
-            this.items = sessionStorage.getItem('items').split(",");
-            this.items.push(id);
-            sessionStorage.setItem('items', this.items);
+
+        function addAndSet(id, array) {
+            array.push(id);
+            sessionStorage.setItem('items', array);
         }
-        //mostramos mensaje éxito al finalizar.
+        switch (previous) {
+            case null:
+                //Si no hay nada, agregamos producto al storage
+                addAndSet(id, this.items);
+                break;
+            case '':
+                //cuando no hay nada, a veces queda como empty string.
+                sessionStorage.removeItem('items');
+                addAndSet(id, this.items);
+                break;
+            default:
+                //si hay algo, lo totamos aquí, insertamos nuevo objeto y
+                //actualizamos el storage.
+                this.items = sessionStorage.getItem('items').split(",");
+                addAndSet(id, this.items);
+                break;
+        }
+        //mostramos mensaje éxito al finalizar.*/
         this.showSuccess();
         //modificamos el carrito con el n° de items en Storage.
-        $("#cartItems").html(this.items.length);
+        $("#cartItems").text(this.items.length);
+
+        //cambiamos el display del button para deshabilitarlo y 'Added'
+        setAttributes(e, {
+            'style': 'pointer-events:none',
+            'class': 'btn btn-disabled addButton'
+        });
+        $(e).text('Added');
+
+        //chequeamos por si es botón de la Vista de un producto.
+        //Así nos aseguramos de también cambiar el botón de view list/card. 
+
+        ShopCart.checkAlreadySelectedItems();
+        /*if (e.id === 'presentProductButton') {
+            console.log(e.id);
+            console.log(e.value);
+            const elValor = e.value;
+            let butts = $('.addButton');
+            typeof(butts);
+            console.log(butts);
+            for (var key in butts) {
+                //console.log(item.value);
+                //console.log(elValor);
+                console.log(butts[key].value);
+                if (butts[key].value == elValor) {
+                    console.log(butts[key]);
+                    setAttributes(butts[key], {
+                        'style': 'pointer-events:none',
+                        'class': 'btn btn-disabled addButton'
+                    });
+                    $(butts[key]).text('Added');
+                }
+            }
+        }*/
     },
     checkCartStorageCount: function() {
-        if (sessionStorage.getItem('items') === null) {
+        if (sessionStorage.getItem('items') === null || sessionStorage.getItem('items') === '') {
             // Si Storage vacío, vaciar indicador de items en el carro.
-            $("#cartItems").text('');
-        } else if (sessionStorage.getItem('items') != null) {
-            // extraemos array de la string que devuelve el storage.
-            let items = sessionStorage.getItem('items').split(",");
-            if (this.items.length != items.length) {
-                //chequeamos por las dudas que no haya una diferencia
-                //entre this.items y el storage.
-                this.items = items;
-            }
+            $("#cartItems").empty();
+            return false;
+        } else if (sessionStorage.getItem('items') != '') {
+            this.items = sessionStorage.getItem('items').split(",");
             //asignamos cantidad de items al carrito.
-            $("#cartItems").text(items.length);
+            $("#cartItems").text(this.items.length);
+            return true;
         }
     },
     totalCompra: function() {
@@ -315,7 +356,6 @@ const ShopCart = {
         //obtenermos los $$ de cada productValue
         let valores = document.getElementsByClassName("productValue");
         Array.from(valores).forEach(function(item) {
-            console.log(item.innerText);
             //Sacamos el $ del valor, sumamos como Float.
             subTotal += parseFloat(item.innerText.substring(1))
         });
@@ -357,20 +397,41 @@ const ShopCart = {
         $(e).attr("onclick", "ShopCart.removeItem(this)");
     },
     removeSelectedItem: function(e) {
+        console.log(e);
         //sacamos el número de la id.
         id = e.id.substring(6);
+        console.log(`valor de id: ${id}`);
+        let n = parseInt(id) - 1;
+        console.log(`valor de n: ${n}`);
+        // re-habilitamos el addButton.
+        let buttons = $('.btn-disabled');
+        console.log(`valor de buttons:`);
+        console.log(buttons);
+
+        // n tiene que ser igual al value
+        for (var key in buttons) {
+            if (buttons[key].value == id) {
+                setAttributes(buttons[key], {
+                    'class': 'btn btn-secondary',
+                    'type': 'button',
+                    'value': id,
+                    'onclick': 'ShopCart.addProduct(this, this.value)',
+                    'style': 'pointer-events:auto'
+                });
+                $(buttons[key]).text('Add');
+            }
+        }
         $('#row-' + id + '.productRow').remove();
-        console.log(sessionStorage);
         //Recorremos items buscando el producto con su ID y lo borramos.
         for (var i = 0; i < this.items.length; i++) {
             if (this.items[i] === id) {
                 this.items.splice(i, 1);
+                console.log(this.items);
             }
         }
         //cargamos items nuevamente en sessionStorage
         sessionStorage.setItem('items', this.items);
-        console.log(this.items);
-        console.log(sessionStorage.getItem('items'));
+
         //rendereamos nuevamente la view de los productos del Cart.
         this.renderCart();
         //mostramos nuevamente los basureros
@@ -379,10 +440,39 @@ const ShopCart = {
         //calculamos total compra!
         this.totalCompra();
 
+        sessionStorage.getItem('items') === undefined ? this.renderCart() : $("#cartItems").html(this.items.length);
+    },
+    checkAlreadySelectedItems() {
+        if (sessionStorage.getItem('items') != null && sessionStorage.getItem('items') !== '') {
+            let previous = sessionStorage.getItem('items');
+            let buttons = $('.addButton');
+            console.log(previous);
+            if (previous.length > 1) {
+                previous = sessionStorage.getItem('items').split(",");
+                console.log(previous);
+
+                previous.forEach(item => {
+                    let i = parseInt(item) - 1;
+                    setAttributes(buttons[i], {
+                        'style': 'pointer-events:none',
+                        'class': 'btn btn-disabled addButton'
+                    });
+                    $(buttons[i]).text('Added');
+                })
+            }
+            let i = parseInt(previous) - 1;
+            setAttributes(buttons[i], {
+                'style': 'pointer-events:none',
+                'class': 'btn btn-disabled addButton'
+            });
+            $(buttons[i]).text('Added');
+        }
     },
     renderCart: function() {
         //limpiamos el carrito
-        if (sessionStorage.getItem('items') === null) {
+        $('#productContainer').empty();
+        if (sessionStorage.getItem('items') === '' || sessionStorage.getItem('items') === null) {
+
             ElementGenerator.generate(
                 "h6", {
                     'id': 'noItemsInCart',
@@ -394,10 +484,7 @@ const ShopCart = {
             );
             return;
         }
-        $("#productContainer").empty();
         let items = sessionStorage.getItem('items').split(",");
-        console.log(items);
-        console.log(allPokeData[items[0]]);
         items.forEach(function(item) {
             ElementGenerator.generate(
                 "div", {
@@ -455,6 +542,7 @@ const Ordenador = {
             ProductViewManager.viewAsList(allPokeData);
             this.toogleCardListView('#viewList', '#viewCard');
             this.estado = 'list';
+            ShopCart.checkAlreadySelectedItems();
         }
     },
     viewAsCard: function() {
@@ -463,6 +551,7 @@ const Ordenador = {
             ProductViewManager.viewAsCard(allPokeData);
             this.toogleCardListView('#viewCard', '#viewList');
             this.estado = 'card';
+            ShopCart.checkAlreadySelectedItems();
         }
     },
     toogleCardListView: function(actual, past) {
