@@ -126,11 +126,38 @@
                                                 </p>
                                           </div>
                                           <div class="cartButtons">
-                                                <button type="button" class="btn btn-primary">Buy</button>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buyProduct" data-bs-dismiss="modal">
+                                                      Buy
+                                                    </button>
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="ShopCart.checkCloseRemove()">Close</button>
                                                 <button id="removeButton" type="button" class="btn btn-danger" onclick="ShopCart.removeItem(this)">Remove Item</button>
                                           </div>
 
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+                  <!-- Buy Modal -->
+                  <div class="modal fade" id="buyProduct" tabindex="-1" aria-labelledby="buyProductLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                              <div class="modal-content">
+                                    <div class="modal-header">
+                                          <h5 class="modal-title" id="buyProductLabel">Thanks for your visit!</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                          <p> I'm glad you went this far and wanted to buy something from my shop. But this is only a simulator. <b>The main porpouse</b> is to give an easy to use interface and accomplish the following objectives:</p>
+                                          <ul class="list-group">
+                                                <li class="list-group-item">Sort the product by different categories like price and alphabeticall order</li>
+                                                <li class="list-group-item">Offer two types of view. One with a card-like style and other as product list</li>
+                                                <li class="list-group-item">A product details when you click on 'See'</li>
+                                                <li class="list-group-item">A search bar where you can type a product name and find a match</li>
+                                                <li class="list-group-item">Lastly but not least, a shop cart with the selected items and the option to remove items from it</li>
+                                          </ul>
+                                          <p>This site was made using javascript, jQuery, bootstrap and basic HTML and CSS. If you want to check the code, <a href="https://github.com/ratofante/coderJs/tree/main/pokeShop">check it here</a></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     </div>
                               </div>
                         </div>

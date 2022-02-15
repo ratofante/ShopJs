@@ -234,6 +234,14 @@
     #pokeCardTarget {
         max-width: 350px;
     }
+    #cardInfo {
+        max-width: 500px;
+        padding: 2rem !important;
+        background-color: #bfd0f2;
+    }
+    .infoBlock {
+        border-bottom: .1rem solid black;
+    }
 }
 
 

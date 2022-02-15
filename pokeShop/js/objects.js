@@ -66,7 +66,6 @@ const FindPokemon = {
         $("#candidatos").removeClass("hideMe");
         $("#candidatos").addClass('showMe');
         for (var key in pokemons) {
-            console.log('trigger');
             ElementGenerator.generate(
                 "div", { 'id': 'choice-' + key, 'class': 'searchInput bg-secondary my-1 d-flex align-content-center justify-content-between rounded' },
                 target);
@@ -433,26 +432,22 @@ const ShopCart = {
         if (sessionStorage.getItem('items') != null && sessionStorage.getItem('items') !== '') {
             let previous = sessionStorage.getItem('items');
             let buttons = $('.addButton');
-            console.log(previous);
             if (previous.length > 1) {
                 previous = sessionStorage.getItem('items').split(",");
                 console.log(previous);
-
+                console.log(buttons);
                 previous.forEach(item => {
-                    let i = parseInt(item) - 1;
-                    setAttributes(buttons[i], {
-                        'style': 'pointer-events:none',
-                        'class': 'btn btn-disabled addButton'
-                    });
-                    $(buttons[i]).text('Added');
+                    for (var key in buttons) {
+                        if (buttons[key].value == item) {
+                            setAttributes(buttons[key], {
+                                'style': 'pointer-events:none',
+                                'class': 'btn btn-disabled addButton'
+                            });
+                            $(buttons[key]).text('Added');
+                        }
+                    }
                 })
             }
-            let i = parseInt(previous) - 1;
-            setAttributes(buttons[i], {
-                'style': 'pointer-events:none',
-                'class': 'btn btn-disabled addButton'
-            });
-            $(buttons[i]).text('Added');
         }
     },
     renderCart: function() {
@@ -486,13 +481,6 @@ const ShopCart = {
                     pokemon['price'] = allPokeData[key].price;
                 }
             }
-            console.log(pokemon);
-
-            /*let id = allPokeData[key].id;
-                        let frontDefault = allPokeData[key].frontDefault;
-                        let name = allPokeData[key].name;
-                        let price = allPokeData[key].price;
-            console.log(`${id},${frontDefault},${name},${price}`);*/
             ElementGenerator.generate(
                 "div", {
                     'id': 'row-' + pokemon.id,

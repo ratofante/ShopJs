@@ -202,14 +202,24 @@ function searchSpeciesData(id) {
                     ElementGenerator.generate(
                         'div', { 'class': 'infoBlock evoBlock' }, '#cardInfo'
                     );
-                    if (resp.chain.evolves_to.length > 1) {
+                    if (resp.chain.evolves_to.length > 1 || resp.chain.evolves_to[0].evolves_to.length > 1) {
+                        console.log('caso raro');
                         // casos raros. EEVEE.
-                        let evos = {};
-                        evos[giveId(resp.chain.species.url)] = resp.chain.species.name;
-                        evos[giveId(resp.chain.evolves_to[0].species.url)] = resp.chain.evolves_to[0].species.name;
-                        evos[giveId(resp.chain.evolves_to[1].species.url)] = resp.chain.evolves_to[2].species.name;
-                        evos[giveId(resp.chain.evolves_to[2].species.url)] = resp.chain.evolves_to[2].species.name;
-                        fetchEvos(evos);
+                        if (resp.chain.evolves_to.length > 1) {
+                            let evos = {};
+                            evos[giveId(resp.chain.species.url)] = resp.chain.species.name;
+                            evos[giveId(resp.chain.evolves_to[0].species.url)] = resp.chain.evolves_to[0].species.name;
+                            evos[giveId(resp.chain.evolves_to[1].species.url)] = resp.chain.evolves_to[2].species.name;
+                            evos[giveId(resp.chain.evolves_to[2].species.url)] = resp.chain.evolves_to[2].species.name;
+                            fetchEvos(evos);
+                        } else if (resp.chain.evolves_to[0].evolves_to.length > 1) {
+                            let evos = {};
+                            evos[giveId(resp.chain.species.url)] = resp.chain.species.name;
+                            evos[giveId(resp.chain.evolves_to[0].species.url)] = resp.chain.evolves_to[0].species.name;
+                            evos[giveId(resp.chain.evolves_to[0].evolves_to[0].species.url)] = resp.chain.evolves_to[0].evolves_to[0].species.name;
+                            fetchEvos(evos);
+                        }
+
                     } else if (resp.chain.evolves_to.length === 0) {
                         ElementGenerator.generate(
                             //Tiene solo una evo
