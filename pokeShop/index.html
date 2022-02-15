@@ -101,7 +101,7 @@
                               <div class="modal-content">
                                     <div class="modal-header">
                                           <h5 class="modal-title" id="staticBackdropLabel">Selected Products</h5>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="ShopCart.checkCloseRemove()" aria-label="Close"></button>
                                     </div>
                                     <div id="cartView" class="modal-body">
                                           <div id="productContainer">
@@ -127,7 +127,7 @@
                                           </div>
                                           <div class="cartButtons">
                                                 <button type="button" class="btn btn-primary">Buy</button>
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="ShopCart.checkCloseRemove()">Close</button>
                                                 <button id="removeButton" type="button" class="btn btn-danger" onclick="ShopCart.removeItem(this)">Remove Item</button>
                                           </div>
 

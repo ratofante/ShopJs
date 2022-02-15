@@ -276,6 +276,8 @@ const ProductViewManager = {
 const ShopCart = {
     items: [],
     addProduct: function(e, id) {
+
+
         //obtenemos lo que haya en el storage.
         let previous = sessionStorage.getItem('items');
 
@@ -314,29 +316,7 @@ const ShopCart = {
 
         //chequeamos por si es botón de la Vista de un producto.
         //Así nos aseguramos de también cambiar el botón de view list/card. 
-
         ShopCart.checkAlreadySelectedItems();
-        /*if (e.id === 'presentProductButton') {
-            console.log(e.id);
-            console.log(e.value);
-            const elValor = e.value;
-            let butts = $('.addButton');
-            typeof(butts);
-            console.log(butts);
-            for (var key in butts) {
-                //console.log(item.value);
-                //console.log(elValor);
-                console.log(butts[key].value);
-                if (butts[key].value == elValor) {
-                    console.log(butts[key]);
-                    setAttributes(butts[key], {
-                        'style': 'pointer-events:none',
-                        'class': 'btn btn-disabled addButton'
-                    });
-                    $(butts[key]).text('Added');
-                }
-            }
-        }*/
     },
     checkCartStorageCount: function() {
         if (sessionStorage.getItem('items') === null || sessionStorage.getItem('items') === '') {
@@ -381,6 +361,13 @@ const ShopCart = {
             "Product added succesfully"
         );
         $("#productAddedAlert").fadeIn(800).delay(2000).fadeOut(400);
+    },
+    checkCloseRemove: function() {
+        if ($('#removeButton').attr('onclick') === 'ShopCart.closeRemove(this)') {
+            $('#removeButton').removeAttr('onclick');
+            $('#removeButton').attr('onclick', 'ShopCart.removeItem(this)');
+            $('#removeButton').text('Remove Item');
+        }
     },
     removeItem: function(e) {
         $(e).removeAttr("onclick");
@@ -485,10 +472,30 @@ const ShopCart = {
             return;
         }
         let items = sessionStorage.getItem('items').split(",");
+        console.log(items);
+        // El problema es que necesito que item coincida con allPokedata[i].id
+        // Y no simplemente con allPokeData[item] ..
+
         items.forEach(function(item) {
+            const pokemon = {};
+            for (var key in allPokeData) {
+                if (allPokeData[key].id == item) {
+                    pokemon['id'] = allPokeData[key].id;
+                    pokemon['frontDefault'] = allPokeData[key].frontDefault;
+                    pokemon['nombre'] = allPokeData[key].name;
+                    pokemon['price'] = allPokeData[key].price;
+                }
+            }
+            console.log(pokemon);
+
+            /*let id = allPokeData[key].id;
+                        let frontDefault = allPokeData[key].frontDefault;
+                        let name = allPokeData[key].name;
+                        let price = allPokeData[key].price;
+            console.log(`${id},${frontDefault},${name},${price}`);*/
             ElementGenerator.generate(
                 "div", {
-                    'id': 'row-' + allPokeData[item].id,
+                    'id': 'row-' + pokemon.id,
                     'class': 'productRow',
                 },
                 '#productContainer'
@@ -496,37 +503,37 @@ const ShopCart = {
             ElementGenerator.generate(
                 "img", {
                     'class': 'productImg',
-                    'src': allPokeData[item].frontDefault,
-                    'alt': allPokeData[item].name
+                    'src': pokemon.frontDefault,
+                    'alt': pokemon.nombre
                 },
-                '#row-' + allPokeData[item].id
+                '#row-' + pokemon.id
             );
             ElementGenerator.generate(
                 "h4", {
                     'class': 'productName'
                 },
-                '#row-' + allPokeData[item].id,
+                '#row-' + pokemon.id,
                 null,
-                allPokeData[item].name
+                pokemon.nombre
             );
             ElementGenerator.generate(
                 "a", {
-                    'id': 'trash-' + allPokeData[item].id,
+                    'id': 'trash-' + pokemon.id,
                     'type': 'button',
                     'class': 'trashProduct hideMe',
                     'onclick': 'ShopCart.removeSelectedItem(this)'
                 },
-                '#row-' + allPokeData[item].id
+                '#row-' + pokemon.id
             );
             //insertamos en <a></a> el SVG para el tacho de basura (en consts.js)
-            $('#trash-' + allPokeData[item].id).append(svgTachoBasura);
+            $('#trash-' + pokemon.id).append(svgTachoBasura);
             ElementGenerator.generate(
                 "span", {
                     'class': 'productValue'
                 },
-                '#row-' + allPokeData[item].id,
+                '#row-' + pokemon.id,
                 null,
-                "$" + allPokeData[item].price
+                "$" + pokemon.price
             );
         });
         //Sacamos total
