@@ -182,7 +182,7 @@ const ProductViewManager = {
 
             let see = makeElement("button");
             setAttributes(see, {
-                'class': 'btn btn-primary mx-2',
+                'class': 'btn btn-primary mx-2 seeButton',
                 'type': 'button',
                 'value': array[key].id,
                 'onclick': 'seeProduct(this.value)'
@@ -253,7 +253,7 @@ const ProductViewManager = {
             //seeProduct() Button
             let seeButton = makeElement("button");
             setAttributes(seeButton, {
-                "class": "btn btn-primary mx-2",
+                "class": "btn btn-primary mx-2 seeButton",
                 "type": "button",
                 "value": array[key].id,
                 "onclick": "seeProduct(this.value)"

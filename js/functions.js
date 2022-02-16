@@ -133,6 +133,10 @@ function searchPokemon(id) {
                 duration: 500,
                 offset: { top: 242 },
             })
+            setTimeout(function() {
+                $('.seeButton').attr('style', 'pointer-events:auto');
+            }, 1500);
+
         })
         .catch(function(error) {
             console.log(error);
@@ -291,6 +295,7 @@ function fetchEvos(evos) {
  * 
  */
 function seeProduct(id) {
+    $('.seeButton').attr('style', 'pointer-events:none');
     if ($(".productInfo").hasClass("showMe")) {
         $(".productInfo").removeClass("showMe");
         $(".productInfo").addClass("hideMe");
