@@ -434,8 +434,6 @@ const ShopCart = {
             let buttons = $('.addButton');
             if (previous.length > 1) {
                 previous = sessionStorage.getItem('items').split(",");
-                console.log(previous);
-                console.log(buttons);
                 previous.forEach(item => {
                     for (var key in buttons) {
                         if (buttons[key].value == item) {
