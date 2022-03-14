@@ -27,4 +27,4 @@ Check the info of each product:
 
 Add to Cart and buy:
 
-[Cart.jpg](https://postimg.cc/ctQgSYcF)
+[![Cart.jpg](https://i.postimg.cc/GtfkvxTn/Cart.jpg)](https://postimg.cc/ctQgSYcF)
