@@ -15,7 +15,7 @@ Este es un proyecto sencillo utilizando `javascript` (y `jQuery`). La idea es si
 3. Poder visualizar el detalle de cada producto
 4. Agregar productos a un carrito de compras, poder eliminar productos del mismo y, por supuesto, confirmar la compra. 
 
-El sitio consume la bella API de [pokeApi](https://pokeapi.co/) aprovechando la organizacipon de su contenido para generar los productos. 
+El sitio consume la bella API de [pokeApi](https://pokeapi.co/) aprovechando la organización de su contenido para generar los productos. 
 
 Los `precios $$` se generan de manera aleatoria al iniciar el sitio. 
 
