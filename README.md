@@ -16,7 +16,7 @@ Sort by Price or Alphabetically:
 
 Change view card or list:
 
-[view-List-Responsive.png](https://postimg.cc/hJfXGNrz)
+[![view-List-Responsive.png](https://i.postimg.cc/wBkLwpRV/view-List-Responsive.png)](https://postimg.cc/hJfXGNrz)
 
 Check the info of each product:
 
